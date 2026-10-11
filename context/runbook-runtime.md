@@ -100,7 +100,7 @@ for cmd in $H; do test -x "$cmd" && echo "✓" || echo "✗ $cmd"; done
 
 ```bash
 # 1. Clona o repo
-git clone https://github.com/doutortenente/Claude.git ~/src/Claude-workspace
+git clone https://github.com/doutortenente/claude-workspace.git ~/src/Claude-workspace
 
 # 2. Sincroniza tudo
 python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply

@@ -5,7 +5,7 @@ Não é repo git. Cada pasta abaixo é um repo independente.
 
 | Pasta | GitHub | Papel |
 |---|---|---|
-| **Claude-workspace** | `doutortenente/Claude` | Este repo: skills, subagentes e contexto do Claude Code |
+| **Claude-workspace** | `doutortenente/claude-workspace` | Este repo: skills, subagentes e contexto do Claude Code |
 | **scripts** | `doutortenente/scripts` | Casa única de script de infra: `indices/`, `pc/`, `nuvem/`, `obsidian/`, `sasi/` |
 | **sasi** | — (não é git) | Produto clínico SASI, cópia local sem remoto |
 | **hermes-workspace** | `doutortenente/hermes-workspace` | Workspace do agente Hermes |

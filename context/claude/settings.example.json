@@ -52,39 +52,8 @@
   },
   "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
-  "skillOverrides": {
-    "admissao-uti": "off",
-    "analise-ecott": "off",
-    "aula-turbo-V2": "off",
-    "book-to-skill": "off",
-    "canvas-design": "off",
-    "controles-vitais-janela": "off",
-    "docs-update": "off",
-    "docx": "off",
-    "file-organizer": "off",
-    "find-docs": "off",
-    "hemodinamica-calculada": "off",
-    "pdf": "off",
-    "plantao": "off",
-    "pptx": "off",
-    "sasi-ingest-export": "off",
-    "supabase": "off",
-    "supabase-automation": "off",
-    "supabase-postgres-best-practices": "off",
-    "vercel-cli": "off",
-    "vercel-react-best-practices": "off",
-    "xlsx": "off"
-  },
   "hooks": {
     "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/home/dr/src/Claude-workspace/.claude/hooks/modo-de-skills.sh"
-          }
-        ]
-      },
       {
         "hooks": [
           {

@@ -401,7 +401,8 @@ python3 -c "import json; s=json.load(open('/home/dr/.claude/settings.json')); pr
 `testador`), docs/OPERATING-MANUAL.md, docs/REPOSITORY-INVENTORY.md, context/codex/ e context/memory/;
 (b) os documentos vivos passam a citar os caminhos reais: repo em `~/src/Claude-workspace`, scripts em `~/src/scripts`,
 cofre em `~/.local/secrets/.env`, runtime do Claude Code em `$CLAUDE_CONFIG_DIR` (`~/.config/claude`); (c) os números
-publicados ficam em `README.md` ("Números medidos") e `CLAUDE.md` §1, sem inventário separado.
+publicados ficam em `README.md` ("Números medidos") e `CLAUDE.md` §1, sem inventário separado. (d) o sistema de modos de skills (`modo` e `modo-de-skills.sh`) foi apagado — nunca esteve registrado
+no runtime atual; (e) o remoto passa a ser `doutortenente/claude-workspace`, novo nome do repo no GitHub.
 
 **Problema que resolveu:** `~/projetos/` deixou de existir e o runtime saiu de `~/.claude/`; documento, hook e script
 citavam caminho morto, e 11 agentes e 2 docs descreviam uma frota que o operador já tinha abandonado.

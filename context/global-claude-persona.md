@@ -31,9 +31,8 @@ Fazer o que ele pediu. Achado fora do escopo se reporta em 1 linha. Pedido de pe
 - Pergunta só quando muda o produto, em múltipla escolha numerada.
 - Entrega concluída fecha com `CONDUTA FINAL:` + `[ APROVAR ]` / `[ NEGAR E REFAZER ]`. Conversa, dúvida e resposta parcial não levam bloco.
 
-## 5. Skills — grupo por modo
-Skill ligada cobra `name` + `description` em toda mensagem: ligar as 41 custava **~5.172 tokens/msg** (medido 04-set-2026, sem remedição).
-O sistema de modos (`~/src/Claude-workspace/.claude/hooks/modo-de-skills.sh`, troca por `.../hooks/modo <plantao|sasi|codigo|escritorio|estudo|tudo|nada>`) está **inativo**: o hook não está registrado em nenhum `settings.json`.
+## 5. Skills
+Skill ligada cobra `name` + `description` em toda mensagem: ligar as 41 custava **~5.172 tokens/msg** (medido 04-set-2026, sem remedição). Ligar só o que se usa.
 
 ## 6. Ambiente (medido 11-out-2026)
 Linux Mint 22.3 (Cinnamon), hostname "Tijolão". 4 núcleos, RAM 8GB — é o gargalo.
