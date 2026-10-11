@@ -58,7 +58,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/home/dr/src/Claude-workspace/.claude/hooks/prefer-ide-tools.sh"
+            "command": "/home/dr/src/claude-workspace/.claude/hooks/prefer-ide-tools.sh"
           }
         ]
       }
@@ -89,7 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/home/dr/src/Claude-workspace/.claude/hooks/prefer-ide-tools.sh"
+            "command": "/home/dr/src/claude-workspace/.claude/hooks/prefer-ide-tools.sh"
           }
         ]
       }
@@ -174,5 +174,5 @@
     "webstorm"
   ],
   "hasCompletedOnboarding": true,
-  "_comment": "Template versionado de ~/.claude/settings.json. Secrets (ANTHROPIC_AUTH_TOKEN) são carregados do ambiente ou de ~/.local/secrets/.env. Sincronizar via: python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply"
+  "_comment": "Template versionado de ~/.claude/settings.json. Secrets (ANTHROPIC_AUTH_TOKEN) são carregados do ambiente ou de ~/.local/secrets/.env. Sincronizar via: python3 ~/src/claude-workspace/scripts/sync-claude-config.py --apply"
 }

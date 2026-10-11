@@ -1,6 +1,6 @@
 ---
 name: verify-before-finish
-description: Conferência adversarial antes de declarar uma entrega concluída neste repo (~/src/Claude-workspace). Aciona SEMPRE antes de dizer "pronto", "concluído", "está funcionando", antes de commitar ou de emitir o bloco CONDUTA FINAL — e quando o operador disser "confere", "prova", "isso rodou mesmo?", "tem certeza?", "não confio, testa". Exige EXECUTAR a verificação (caminho existe, número foi medido, hook roda, índice regerado, doc corrigida), não achar que está certo.
+description: Conferência adversarial antes de declarar uma entrega concluída neste repo (~/src/claude-workspace). Aciona SEMPRE antes de dizer "pronto", "concluído", "está funcionando", antes de commitar ou de emitir o bloco CONDUTA FINAL — e quando o operador disser "confere", "prova", "isso rodou mesmo?", "tem certeza?", "não confio, testa". Exige EXECUTAR a verificação (caminho existe, número foi medido, hook roda, índice regerado, doc corrigida), não achar que está certo.
 ---
 
 # Conferir antes de dizer que acabou
@@ -41,7 +41,7 @@ Número herdado do `README.md` ou do `CLAUDE.md` §1 só vale se a medição de 
 ## 4. O índice foi regerado?
 
 ```bash
-find /home/dr/src/Claude-workspace -name '*.md' -newer /home/dr/src/Claude-workspace/memory/claude_index.db \
+find /home/dr/src/claude-workspace -name '*.md' -newer /home/dr/src/claude-workspace/memory/claude_index.db \
   -not -path '*/.git/*' -not -path '*/ide/*' | head
 ```
 
@@ -54,7 +54,7 @@ Mexeu em skill, agente ou estrutura? Então `README.md`, `CLAUDE.md` §1, `memor
 ## 6. Sobrou lixo?
 
 ```bash
-cd /home/dr/src/Claude-workspace && git status --short
+cd /home/dr/src/claude-workspace && git status --short
 ```
 
 Arquivo meio-criado, pasta vazia, `.bak` (proibido — não se faz backup local aqui). O que entrou nesta sessão está ligado e provado, ou sai nela.

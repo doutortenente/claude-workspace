@@ -1,6 +1,6 @@
 ---
 name: add-skill
-description: Põe uma skill nova em serviço neste repo (~/src/Claude-workspace). Aciona quando o operador disser "cria uma skill", "adiciona essa skill", "põe essa skill pra rodar", "instala essa skill", "liga a skill X", "vendoriza essa skill", "achei essa skill no GitHub, traz pra cá", ou quando uma skill pronta precisar sair da reserva fria e entrar em operação. Procedimento executável: escolher pacote, criar a pasta, validar o SKILL.md, ligar o symlink, regerar o índice e commitar e dar push.
+description: Põe uma skill nova em serviço neste repo (~/src/claude-workspace). Aciona quando o operador disser "cria uma skill", "adiciona essa skill", "põe essa skill pra rodar", "instala essa skill", "liga a skill X", "vendoriza essa skill", "achei essa skill no GitHub, traz pra cá", ou quando uma skill pronta precisar sair da reserva fria e entrar em operação. Procedimento executável: escolher pacote, criar a pasta, validar o SKILL.md, ligar o symlink, regerar o índice e commitar e dar push.
 ---
 
 # Colocar uma skill em serviço
@@ -22,7 +22,7 @@ Achou skill que já faz isso? Melhore a existente. Duplicar competência é o pe
 ## 2. Criar a pasta e o SKILL.md
 
 ```bash
-cd /home/dr/src/Claude-workspace
+cd /home/dr/src/claude-workspace
 mkdir -p skills-que-prestam/<pacote>/<nome-em-kebab-case>
 ```
 
@@ -45,7 +45,7 @@ Se a skill trouxer `scripts/`, eles ficam **dentro** da pasta dela — é a úni
 **Symlink** = atalho: o conteúdo mora num lugar só (o repo) e o atalho aponta pra ele. Caminho **absoluto**, igual aos 36 já existentes:
 
 ```bash
-ln -s /home/dr/src/Claude-workspace/skills-que-prestam/<pacote>/<nome> $CLAUDE_CONFIG_DIR/skills/<nome>
+ln -s /home/dr/src/claude-workspace/skills-que-prestam/<pacote>/<nome> $CLAUDE_CONFIG_DIR/skills/<nome>
 ls -l $CLAUDE_CONFIG_DIR/skills/<nome>          # tem de mostrar o destino, não "No such file"
 ```
 

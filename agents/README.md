@@ -52,7 +52,7 @@ neutralizado em [docs/template-de-agente.md](docs/template-de-agente.md).
 | `chefe` | opus | escrita | Criar ou alterar script de infra em `~/src/scripts` |
 | `residente` | sonnet | escrita | Implementar código de produto já prescrito — edita, roda typecheck/teste, reporta |
 | `fiscal` | sonnet | leitura | Refutar entrega pronta de outro agente antes de aceitar |
-| `secretaria` | sonnet | escrita | Memória do operador — o que foi feito, o que está pendente (**aviso:** o arquivo-alvo `comando.md` não existe mais no repo nem no runtime) |
+| `secretaria` | sonnet | escrita | Memória do operador — o que foi feito, o que está pendente (**aviso:** o arquivo-alvo `comando.md` não existe mais no repo nem na pasta de configuração) |
 | `auditor-do-repo` | sonnet | leitura | Conferir se o que está escrito bate com o que está no disco (mora em `.claude/agents/`) |
 
 ## Pipelines que funcionam

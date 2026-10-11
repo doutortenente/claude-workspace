@@ -31,7 +31,7 @@ antes ler o estado atual.
 
 ## Dependências
 - `$CLAUDE_CONFIG_DIR/memory/comando.md` — arquivo-alvo, precisa existir.
-- `git` instalado e repos clonados em `~/src/sasi`, `~/src/Claude-workspace`, `~/vaults/celebro` com remote
+- `git` instalado e repos clonados em `~/src/sasi`, `~/src/claude-workspace`, `~/vaults/celebro` com remote
   `origin` configurado.
 - Gate do SASI: `~/src/sasi/frontend` com `npm run typecheck` e `npm run build` funcionando (Node 24 via
   nvm) — só roda antes de pushar o SASI, porque push na main é deploy imediato em produção (Vercel).

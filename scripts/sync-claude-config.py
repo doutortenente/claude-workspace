@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sync-claude-config.py — Sincroniza o repo Claude → runtime ($CLAUDE_CONFIG_DIR, padrão ~/.claude)
+sync-claude-config.py — Sincroniza o repo Claude → pasta de configuração ($CLAUDE_CONFIG_DIR, padrão ~/.claude)
 
 Este script é a fonte de verdade para a direção repo → disco. Ele:
 
@@ -10,14 +10,14 @@ Este script é a fonte de verdade para a direção repo → disco. Ele:
   3. Garante symlinks de skills em $CLAUDE_CONFIG_DIR/skills/ apontando para o repo
   4. Verifica hooks referenciados em settings.json existem no disco
 
-ATENÇÃO: o passo 2 SOBRESCREVE o settings.json do runtime com o template.
+ATENÇÃO: o passo 2 SOBRESCREVE o settings.json da pasta de configuração com o template.
 
 Modo dry-run (padrão): mostra o que faria sem executar.
 Com --apply: executa as mudanças.
 
 Uso:
-  python3 ~/src/Claude-workspace/scripts/sync-claude-config.py            # dry-run
-  python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply    # aplicar
+  python3 ~/src/claude-workspace/scripts/sync-claude-config.py            # dry-run
+  python3 ~/src/claude-workspace/scripts/sync-claude-config.py --apply    # aplicar
 """
 
 import json
@@ -94,7 +94,7 @@ def sync_settings(apply: bool):
     env = load_env_file(ENV_FILE)
     template = json.loads(SETTINGS_TEMPLATE.read_text())
 
-    # Preserve existing secrets from runtime settings.json (secrets live on disk, not in repo)
+    # Preserve existing secrets from the existing settings.json (secrets live on disk, not in repo)
     existing_token = ""
     if CLAUDE_SETTINGS_DST.exists():
         try:
@@ -105,15 +105,15 @@ def sync_settings(apply: bool):
         except (json.JSONDecodeError, KeyError):
             pass
 
-    # Inject secrets from env file first, fall back to existing runtime token
+    # Inject secrets from env file first, fall back to existing token
     if "env" in template:
         if "ANTHROPIC_AUTH_TOKEN" in template["env"]:
             token = env.get("ANTHROPIC_AUTH_TOKEN", "") or existing_token
             if token:
                 template["env"]["ANTHROPIC_AUTH_TOKEN"] = token
-                info("ANTHROPIC_AUTH_TOKEN injetado (do .env ou runtime)")
+                info("ANTHROPIC_AUTH_TOKEN injetado (do .env ou settings.json existente)")
             else:
-                warn("ANTHROPIC_AUTH_TOKEN não encontrado em .env ou runtime — mantendo placeholder")
+                warn("ANTHROPIC_AUTH_TOKEN não encontrado em .env ou settings.json existente — mantendo placeholder")
                 warn(" Claude Code CLI não funcionará sem token válido.")
 
     if apply:

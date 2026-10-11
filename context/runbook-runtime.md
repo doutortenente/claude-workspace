@@ -1,4 +1,4 @@
-# Runbook Runtime — resolver problemas comuns
+# Runbook da pasta de configuração — resolver problemas comuns
 
 > Procedimentos passo a passo. Cada item tem comando executável e resultado esperado.
 
@@ -9,7 +9,7 @@
 **Diagnóstico:**
 ```bash
 # A skill existe no repo?
-find ~/src/Claude-workspace/skills-que-prestam -name SKILL.md | grep <nome>
+find ~/src/claude-workspace/skills-que-prestam -name SKILL.md | grep <nome>
 
 # O symlink existe e aponta certo?
 ls -la $CLAUDE_CONFIG_DIR/skills/<nome>
@@ -19,11 +19,11 @@ readlink -f $CLAUDE_CONFIG_DIR/skills/<nome>
 **Fix:**
 ```bash
 # Sincroniza tudo (recria symlinks quebrados)
-python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply
+python3 ~/src/claude-workspace/scripts/sync-claude-config.py --apply
 
 # Ou corrige individualmente
 rm $CLAUDE_CONFIG_DIR/skills/<nome>
-ln -s ~/src/Claude-workspace/skills-que-prestam/<pacote>/<nome> $CLAUDE_CONFIG_DIR/skills/<nome>
+ln -s ~/src/claude-workspace/skills-que-prestam/<pacote>/<nome> $CLAUDE_CONFIG_DIR/skills/<nome>
 ```
 
 ## 2. Claude Code "não conecta" — erro de auth
@@ -67,9 +67,9 @@ comando falhar o arquivo fica vazio e a sessão cai).
 
 **Fix:**
 ```bash
-python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply
+python3 ~/src/claude-workspace/scripts/sync-claude-config.py --apply
 # confirma:
-diff $CLAUDE_CONFIG_DIR/CLAUDE.md ~/src/Claude-workspace/context/global-claude-persona.md  # deve sair vazio
+diff $CLAUDE_CONFIG_DIR/CLAUDE.md ~/src/claude-workspace/context/global-claude-persona.md  # deve sair vazio
 ```
 
 ## 6. Hook não roda
@@ -100,11 +100,11 @@ for cmd in $H; do test -x "$cmd" && echo "✓" || echo "✗ $cmd"; done
 
 ```bash
 # 1. Clona o repo
-git clone https://github.com/doutortenente/claude-workspace.git ~/src/Claude-workspace
+git clone https://github.com/doutortenente/claude-workspace.git ~/src/claude-workspace
 
 # 2. Sincroniza tudo
-python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply
-# (simule antes sem --apply: ele sobrescreve o settings.json do runtime)
+python3 ~/src/claude-workspace/scripts/sync-claude-config.py --apply
+# (simule antes sem --apply: ele sobrescreve o settings.json da pasta de configuração)
 
 # 3. Reinstala plugins do marketplace pelo `/plugin` do Claude Code
 ```

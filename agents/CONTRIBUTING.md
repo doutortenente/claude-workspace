@@ -3,7 +3,7 @@
 ## Criar um agente novo
 
 ```bash
-cd ~/src/Claude-workspace
+cd ~/src/claude-workspace
 mkdir agents/<nome>
 # copiar os blocos de agents/docs/template-de-agente.md para agents/<nome>/<nome>.md
 # escrever agents/<nome>/README.md com a documentação (SEM cabeçalho YAML)

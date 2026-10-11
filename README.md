@@ -10,15 +10,15 @@ de texto que o Claude Code lê. Exceções: `scripts/sync-claude-config.py`, os 
 plantão (`.github/workflows/` + `EXTRACAO-CLINICA-SASI/esteira/`).
 
 ```text
-Claude-workspace/
+claude-workspace/
 ├── CLAUDE.md                    constituição — regra e doutrina do repo
 ├── README.md                    este arquivo — porta de entrada
 ├── docs/                        DECISIONS.md (decisões travadas) + RUNBOOK.md (rotinas passo a passo)
 ├── agents/                      7 subagentes + docs/ (6) + README/CONTRIBUTING/CHANGELOG
 ├── skills-que-prestam/          41 skills canônicas em 5 pacotes numerados (00 a 04)
-├── context/                     persona, templates de settings e MCP, runbook do runtime
+├── context/                     persona, templates de settings e MCP, runbook da pasta de configuração
 ├── memory/                      MAPA-CLAUDE.md + SKILLS-CATALOGO.md (índice de busca)
-├── scripts/                     sync-claude-config.py (repo → runtime)
+├── scripts/                     sync-claude-config.py (repo → pasta de configuração)
 ├── EXTRACAO-CLINICA-SASI/       pipeline clínico do SASI (esteira do plantão)
 ├── extracao-plantao/            README da extração de plantão
 ├── .github/workflows/           esteira do plantão (GitHub Actions)
@@ -34,7 +34,7 @@ Claude-workspace/
 | Executar rotina passo a passo (com o teste de "deu certo") | `docs/RUNBOOK.md` |
 | Ver decisão já travada (o que não se rediscute) | `docs/DECISIONS.md` |
 | Entender a frota de subagentes | `agents/README.md` |
-| Entender o runtime e a sincronização | `context/README.md` e `context/runtime-map.md` |
+| Entender a pasta de configuração e a sincronização | `context/README.md` e `context/runtime-map.md` |
 | Descobrir qual skill existe e o que ela faz | `memory/SKILLS-CATALOGO.md` |
 
 ## Números medidos (11-out-2026)
@@ -42,7 +42,7 @@ Claude-workspace/
 - **1.051 arquivos** versionados, **24 MB** em disco sem histórico (**26 MB** de `.git`)
 - **41 skills canônicas** em pacotes (00: 6 · 01: 7 · 02: 9 · 03: 14 · 04: 5) + **3 locais** em `.claude/skills/`
 - **8 subagentes**: 7 em `agents/<nome>/` + `auditor-do-repo` em `.claude/agents/`
-- **Runtime** (`$CLAUDE_CONFIG_DIR` = `~/.config/claude`): nenhum symlink de skill ou agente ligado hoje
+- **Pasta de configuração** (`$CLAUDE_CONFIG_DIR` = `~/.config/claude`): nenhum symlink de skill ou agente ligado hoje
 - Custo de contexto das skills: `[SEM_FONTE]` — a última medição (04-set-2026) foi com 41 skills e não foi repetida
 
 ## Licença

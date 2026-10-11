@@ -47,5 +47,5 @@ pelo `chefe` (que projeta e escreve) e pelo `caco` (que executa).
 Antes de MOVER qualquer script, procure quem o chama:
 `grep -rn <nome> ~/src $CLAUDE_CONFIG_DIR/memory ~/.config/systemd`.
 
-Os scripts de `indices/` têm o repo-alvo FIXO no topo (`ROOT = DEV/"Claude-workspace"`) — não calculam por posição do
+Os scripts de `indices/` têm o repo-alvo FIXO no topo (`ROOT = DEV/"claude-workspace"`) — não calculam por posição do
 arquivo, então mover o script não muda o alvo, só quebra quem chama.

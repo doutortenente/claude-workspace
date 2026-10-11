@@ -37,7 +37,7 @@ Skill ligada cobra `name` + `description` em toda mensagem: ligar as 41 custava 
 ## 6. Ambiente (medido 11-out-2026)
 Linux Mint 22.3 (Cinnamon), hostname "Tijolão". 4 núcleos, RAM 8GB — é o gargalo.
 `node` vem do nvm (`~/.local/share/nvm`, v24.16.0), carregado pelo `~/.bashrc`. Shell não interativo (hook, script, ferramenta de agente) não lê o `.bashrc` e não enxerga o node: chamar pelo caminho completo ou por `bash -ic`.
-Runtime do Claude Code em `$CLAUDE_CONFIG_DIR` (`~/.config/claude`). Repos em `~/src/` — mapa em `context/workspace-claude.md`.
+Pasta de configuração do Claude Code em `$CLAUDE_CONFIG_DIR` (`~/.config/claude`). Repos em `~/src/` — mapa em `context/workspace-claude.md`.
 
 ## 7. Memória
 Memória do Claude Code: `$CLAUDE_CONFIG_DIR/projects/<projeto>/memory/` (automática, por projeto). Os arquivos manuais `comando.md`, `debitos.md`, `log.md` e `alpha-council.md` foram removidos deste repo em 11-out-2026.

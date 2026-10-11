@@ -1,13 +1,13 @@
 ---
 name: audit-repository
-description: Auditoria de integridade deste repo (~/src/Claude-workspace). Aciona quando o operador disser "audita o repo", "confere se está tudo certo aqui", "tem caminho quebrado?", "tem symlink quebrado?", "o índice está velho?", "os números do README ainda valem?", ou antes de fechar uma reestruturação grande. Confere caminho citado em documento contra o disco, symlink de skill, frescor do índice e divergência dos números publicados em README.md e CLAUDE.md.
+description: Auditoria de integridade deste repo (~/src/claude-workspace). Aciona quando o operador disser "audita o repo", "confere se está tudo certo aqui", "tem caminho quebrado?", "tem symlink quebrado?", "o índice está velho?", "os números do README ainda valem?", ou antes de fechar uma reestruturação grande. Confere caminho citado em documento contra o disco, symlink de skill, frescor do índice e divergência dos números publicados em README.md e CLAUDE.md.
 ---
 
 # Auditar o repositório
 
 Objetivo: achar mentira. Documento que cita pasta que não existe, atalho apontando pro vazio, número publicado que envelheceu. Nada aqui conserta — a auditoria **relata**, o conserto é decisão do operador.
 
-Rode tudo a partir da raiz: `cd /home/dr/src/Claude-workspace`.
+Rode tudo a partir da raiz: `cd /home/dr/src/claude-workspace`.
 
 ## 1. Caminho citado × caminho real
 

@@ -399,7 +399,7 @@ python3 -c "import json; s=json.load(open('/home/dr/.claude/settings.json')); pr
 **Decisão:** (a) o operador apagou 11 subagentes (`arquiteto`, `clinical-data-auditor`, `code-explainer`,
 `deploy-sentinel`, `documentador`, `onboarder`, `otimizador`, `pubmed-evidence-checker`, `refatorador`, `segurador`,
 `testador`), docs/OPERATING-MANUAL.md, docs/REPOSITORY-INVENTORY.md, context/codex/ e context/memory/;
-(b) os documentos vivos passam a citar os caminhos reais: repo em `~/src/Claude-workspace`, scripts em `~/src/scripts`,
+(b) os documentos vivos passam a citar os caminhos reais: repo em `~/src/claude-workspace`, scripts em `~/src/scripts`,
 cofre em `~/.local/secrets/.env`, runtime do Claude Code em `$CLAUDE_CONFIG_DIR` (`~/.config/claude`); (c) os números
 publicados ficam em `README.md` ("Números medidos") e `CLAUDE.md` §1, sem inventário separado. (d) o sistema de modos de skills (`modo` e `modo-de-skills.sh`) foi apagado — nunca esteve registrado
 no runtime atual; (e) o remoto passa a ser `doutortenente/claude-workspace`, novo nome do repo no GitHub.
@@ -413,7 +413,7 @@ com os caminhos novos: são registro histórico e citam o que valia na data.
 
 **Como verificar que continua valendo:**
 ```bash
-cd ~/src/Claude-workspace
+cd ~/src/claude-workspace
 git ls-files | xargs grep -l '~/projetos' | grep -vE 'DECISIONS|CHANGELOG|auditoria-2026'   # vazio
 find skills-que-prestam -mindepth 3 -maxdepth 3 -name SKILL.md | wc -l                       # 41
 find agents -mindepth 1 -maxdepth 1 -type d | wc -l                                          # 8 (7 agentes + docs/)

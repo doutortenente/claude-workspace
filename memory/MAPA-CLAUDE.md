@@ -2,7 +2,7 @@
 
 > Gerado 11-oct-2026 por `~/src/scripts/indices/build_claude_index.py`
 
-**Total:** 1043 arquivos · 20.4 MB · 133,491 linhas · 632,884 tokens indexados · **69 skills**
+**Total:** 1043 arquivos · 20.4 MB · 133,492 linhas · 632,952 tokens indexados · **69 skills**
 
 ## Por categoria
 
@@ -13,13 +13,13 @@
 | `skill_workspace` | 55 | 51,876 | Pacote 02 — workspace (docx, pdf, xlsx…) |
 | `skill_clinical` | 36 | 41,597 | Pacote 01 — skills médicas (UTI) |
 | `skill_backend` | 69 | 25,675 | Pacote 04 — Supabase e Vercel |
-| `agent` | 23 | 13,330 | Subagentes — `agents/<nome>/` |
+| `agent` | 23 | 13,332 | Subagentes — `agents/<nome>/` |
 | `skill_ide` | 10 | 12,861 | Pacote 00 — IDE e documentação |
-| `other` | 15 | 10,733 | Revisar |
-| `docs` | 2 | 5,515 | `docs/` — decisões e runbook |
+| `other` | 15 | 10,777 | Revisar |
+| `docs` | 2 | 5,517 | `docs/` — decisões e runbook |
 | `governance` | 8 | 4,685 | `.claude/` — skills, agents, hooks, settings |
 | `memory` | 2 | 1,736 | `memory/` — este índice |
-| `root` | 4 | 1,469 | CLAUDE.md, README, .gitignore, .env.example |
+| `root` | 4 | 1,489 | CLAUDE.md, README, .gitignore, .env.example |
 | `extracao` | 2 | 1,198 | `EXTRACAO-CLINICA-SASI/` — briefing + atalhos |
 | `vendor_blob` | 304 | 0 | Binários/pesados (só path, sem FTS) |
 

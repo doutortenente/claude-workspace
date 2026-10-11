@@ -28,7 +28,7 @@ O caminho curto: peça ao Claude *"adiciona essa skill"* e a skill `add-skill`
 1. **Escolher o pacote.** As skills ativas moram em `skills-que-prestam/<pacote>/<nome>/`. São 5 gavetas temáticas:
 
    ```bash
-   ls ~/src/Claude-workspace/skills-que-prestam/
+   ls ~/src/claude-workspace/skills-que-prestam/
    ```
 
    `00-pacote-ide-e-documentacao` · `01-pacote-skills-medicas` · `02-pacote-skills-workspace` ·
@@ -39,7 +39,7 @@ O caminho curto: peça ao Claude *"adiciona essa skill"* e a skill `add-skill`
    skill — escreva *quando* usar, com as palavras que o operador usaria de verdade.
 
    ```bash
-   mkdir -p ~/src/Claude-workspace/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill>
+   mkdir -p ~/src/claude-workspace/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill>
    ```
 
    ```markdown
@@ -57,7 +57,7 @@ O caminho curto: peça ao Claude *"adiciona essa skill"* e a skill `add-skill`
    lê skills de `$CLAUDE_CONFIG_DIR/skills/`, então a pasta do repo precisa de uma placa lá dentro. Use caminho absoluto:
 
    ```bash
-   ln -s ~/src/Claude-workspace/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill> \
+   ln -s ~/src/claude-workspace/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill> \
          $CLAUDE_CONFIG_DIR/skills/<nome-da-skill>
    ```
 
@@ -71,7 +71,7 @@ O caminho curto: peça ao Claude *"adiciona essa skill"* e a skill `add-skill`
 
 ```bash
 ls $CLAUDE_CONFIG_DIR/skills | wc -l
-find ~/src/Claude-workspace/skills-que-prestam -mindepth 3 -maxdepth 3 -name SKILL.md | wc -l
+find ~/src/claude-workspace/skills-que-prestam -mindepth 3 -maxdepth 3 -name SKILL.md | wc -l
 ```
 
 Os dois números têm que ser iguais.
@@ -90,7 +90,7 @@ religar é um comando.
    ls -l $CLAUDE_CONFIG_DIR/skills/<nome-da-skill>
    ```
 
-   A saída tem que mostrar `-> /home/dr/src/Claude-workspace/skills-que-prestam/...`. Se mostrar outra coisa, pare.
+   A saída tem que mostrar `-> /home/dr/src/claude-workspace/skills-que-prestam/...`. Se mostrar outra coisa, pare.
 
 2. **Remover só o atalho.** Sem barra no final — barra faz o `rm` mirar no conteúdo, não na placa:
 
@@ -101,7 +101,7 @@ religar é um comando.
 3. **Confirmar que a pasta original sobreviveu:**
 
    ```bash
-   ls ~/src/Claude-workspace/skills-que-prestam/<pacote>/<nome-da-skill>/SKILL.md
+   ls ~/src/claude-workspace/skills-que-prestam/<pacote>/<nome-da-skill>/SKILL.md
    ```
 
 4. **Regerar o índice** (procedimento 4) e atualizar a contagem de skills no `README.md` e no `CLAUDE.md` §1.
@@ -137,7 +137,7 @@ trabalho, criar outro é bola de neve, não ganho.
 3. **Criar a pasta e os dois arquivos.** O padrão da casa é `agents/<nome>/<nome>.md` + `agents/<nome>/README.md`:
 
    ```bash
-   mkdir -p ~/src/Claude-workspace/agents/<nome>
+   mkdir -p ~/src/claude-workspace/agents/<nome>
    ```
 
    O `<nome>.md` começa com frontmatter neste formato (exemplo real, `agents/fiscal/fiscal.md`):
@@ -192,7 +192,7 @@ agente ou documento.
 2. **Conferir que o catálogo ficou mais novo que o que você mexeu:**
 
    ```bash
-   ls -l --time-style=+%d-%m\ %H:%M ~/src/Claude-workspace/memory/
+   ls -l --time-style=+%d-%m\ %H:%M ~/src/claude-workspace/memory/
    ```
 
 3. **Consultar para provar que a mudança entrou:**
@@ -222,7 +222,7 @@ permitido; branch e PR são opcionais — use quando quiser revisar antes de jun
 2. **Executar a sequência:**
 
    ```bash
-   cd ~/src/Claude-workspace
+   cd ~/src/claude-workspace
    git status --short                     # só o que você espera
    git add <arquivos>                     # seletivo, nunca `git add -A` às cegas
    git diff --cached | grep -inE "sk-|api[_-]?key|secret|Bearer "   # só nome de variável, nunca valor
@@ -294,7 +294,7 @@ o atalho ficou. O Claude simplesmente não enxerga mais a skill — sem erro, se
 3. **Achar onde a pasta foi parar de verdade:**
 
    ```bash
-   find ~/src/Claude-workspace/skills-que-prestam -maxdepth 2 -type d -name '<nome-quebrado>'
+   find ~/src/claude-workspace/skills-que-prestam -maxdepth 2 -type d -name '<nome-quebrado>'
    ```
 
 4. **Refazer o atalho** — apagar a placa velha e pregar a nova, sempre com caminho absoluto:

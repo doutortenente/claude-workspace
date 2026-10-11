@@ -11,21 +11,21 @@
 | `global-claude-persona.md` | Persona global: regra de tradução, perfil, formato de saída, ambiente |
 | `workspace-claude.md` | Mapa dos repos em `~/src/` e dos scripts de infra |
 | `runtime-map.md` | Quem usa o quê no PC (Claude Code, Hermes, Obsidian…) |
-| `runbook-runtime.md` | Rotinas de runtime: ligar skill, trocar token, resolver sintoma |
-| `claude/settings.example.json` | Template do `settings.json` do runtime (sem segredo) |
+| `runbook-runtime.md` | Rotinas da pasta de configuração: ligar skill, trocar token, resolver sintoma |
+| `claude/settings.example.json` | Template do `settings.json` da pasta de configuração (sem segredo) |
 | `claude/settings.local.example.json` | Template do `settings.local.json` |
 | `mcp/*.json` | Templates de servidores MCP |
 
 ## Sincronização
 
-O runtime é `$CLAUDE_CONFIG_DIR` (nesta máquina, `~/.config/claude`). O script que o preenche a partir deste diretório:
+A pasta de configuração é `$CLAUDE_CONFIG_DIR` (nesta máquina, `~/.config/claude`). O script que o preenche a partir deste diretório:
 
 ```bash
-python3 ~/src/Claude-workspace/scripts/sync-claude-config.py           # simulação, não grava nada
-python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply   # grava
+python3 ~/src/claude-workspace/scripts/sync-claude-config.py           # simulação, não grava nada
+python3 ~/src/claude-workspace/scripts/sync-claude-config.py --apply   # grava
 ```
 
-**Cuidado com o `--apply`:** ele **sobrescreve** `settings.json` do runtime com o template e cria 1 symlink por skill em
+**Cuidado com o `--apply`:** ele **sobrescreve** `settings.json` da pasta de configuração com o template e cria 1 symlink por skill em
 `$CLAUDE_CONFIG_DIR/skills/`. Rode a simulação primeiro e compare com o `settings.json` atual.
 
 ## Segurança

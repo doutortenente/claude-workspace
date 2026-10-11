@@ -1,5 +1,5 @@
 {
-  "_comment": "Template de configura\u00e7\u00e3o de MCP (Model Context Protocol) servers.\nOrigens: $CLAUDE_CONFIG_DIR/settings.json (CLI) + ~/.claude.json (desktop) + ~/src/.mcp.json (workspace).\nSecrets (OBSIDIAN_API_KEY) s\u00e3o carregados do ambiente ou de ~/.local/secrets/.env.\nagentbridge est\u00e1 DESABILITADO por decis\u00e3o do operador (28-jul-2026): endpoint MCP inv\u00e1lido.\nSincronizar via: python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply",
+  "_comment": "Template de configura\u00e7\u00e3o de MCP (Model Context Protocol) servers.\nOrigens: $CLAUDE_CONFIG_DIR/settings.json (CLI) + ~/.claude.json (desktop) + ~/src/.mcp.json (workspace).\nSecrets (OBSIDIAN_API_KEY) s\u00e3o carregados do ambiente ou de ~/.local/secrets/.env.\nagentbridge est\u00e1 DESABILITADO por decis\u00e3o do operador (28-jul-2026): endpoint MCP inv\u00e1lido.\nSincronizar via: python3 ~/src/claude-workspace/scripts/sync-claude-config.py --apply",
   "mcpServers": {
     "playwright": {
       "type": "stdio",

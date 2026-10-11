@@ -1,11 +1,12 @@
-# Runtime Map — quem usa o quê no PC
+# Mapa de configuração — quem usa o quê no PC
 
-> **Runtime** = arquivos no disco do PC que as ferramentas leem em **tempo de execução** — não são versionados no
-> repo. Fonte canônica do repo: `~/src/Claude-workspace/context/`. Conferido em 11-out-2026.
+> **Pasta de configuração** = arquivos no disco do PC que cada ferramenta lê ao iniciar — não são versionados no
+> repo. Fonte canônica do repo: `~/src/claude-workspace/context/`. Conferido em 11-out-2026.
+> (O nome do arquivo ainda diz "runtime" por herança; runtime, em sentido estrito, é o programa em execução.)
 
 ## Ferramentas e suas pastas
 
-| Ferramenta | Config (runtime) | Origem (repo) |
+| Ferramenta | Config (pasta de configuração) | Origem (repo) |
 |---|---|---|
 | **Claude Code (CLI)** | `$CLAUDE_CONFIG_DIR/settings.json` (`~/.config/claude`) | `context/claude/settings.example.json` |
 | **Claude Code (desktop)** | `~/.claude.json` | — (config do app) |
@@ -13,10 +14,10 @@
 | **nvm / node** | `~/.local/share/nvm`, carregado pelo `~/.bashrc` | — |
 | **Variáveis do usuário** | `~/.config/shell/env.sh` (lido por `~/.profile` e `~/.bashrc`) | — |
 
-## Fluxo de sincronização (repo → runtime)
+## Fluxo de sincronização (repo → pasta de configuração)
 
 ```
-context/ (versionado) → scripts/sync-claude-config.py --apply → $CLAUDE_CONFIG_DIR (runtime)
+context/ (versionado) → scripts/sync-claude-config.py --apply → $CLAUDE_CONFIG_DIR
 ```
 
 1. `global-claude-persona.md` → `$CLAUDE_CONFIG_DIR/CLAUDE.md`
@@ -41,8 +42,8 @@ context/ (versionado) → scripts/sync-claude-config.py --apply → $CLAUDE_CONF
 find "$CLAUDE_CONFIG_DIR/skills/" -maxdepth 1 -xtype l
 
 # 2. Persona sincronizada? (sem saída = igual; erro = ainda não sincronizado)
-diff "$CLAUDE_CONFIG_DIR/CLAUDE.md" ~/src/Claude-workspace/context/global-claude-persona.md
+diff "$CLAUDE_CONFIG_DIR/CLAUDE.md" ~/src/claude-workspace/context/global-claude-persona.md
 
 # 3. Nenhum valor de chave no repo? (só aparece nome de variável)
-grep -rnE 'sk-[A-Za-z0-9]{16,}' ~/src/Claude-workspace/context/
+grep -rnE 'sk-[A-Za-z0-9]{16,}' ~/src/claude-workspace/context/
 ```

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ---------------------------------------------------------------------------
-# block-sensitive-files.sh — gancho de bloqueio do repo ~/src/Claude-workspace
+# block-sensitive-files.sh — gancho de bloqueio do repo ~/src/claude-workspace
 #
 # GANCHO (hook) = programinha que o Claude Code executa sozinho ANTES de uma
 # ação, e que pode barrar essa ação. Este roda em PreToolUse (antes do uso da
