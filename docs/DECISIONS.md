@@ -275,7 +275,7 @@ grep -rn 'claude-steroid' ~/projetos/claude/ --include='*.md' --exclude-dir=.git
 
 **Decisão:** ordem direta do operador. Toda regra e restrição sobre **PHI** (dado que identifica paciente) sai da
 governança deste repositório. A regra que se chamava `security-and-phi.md` virou
-`security-and-secrets.md` (removido junto com `.claude/rules/`) sem a seção de PHI, o gancho parou de barrar
+`security-and-secrets.md` (removido junto com a pasta .claude/rules) sem a seção de PHI, o gancho parou de barrar
 caminho com `PHI` no nome, e a conferência de PHI saiu da lista pré-commit (6 itens viraram 5).
 
 **Problema que resolveu:** o operador quis a governança do repo tratando só de segredo e credencial. Regra clínica que
