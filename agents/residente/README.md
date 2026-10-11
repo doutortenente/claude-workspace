@@ -11,10 +11,10 @@ resultado exato. Não decide o quê construir, só como implementar o que já fo
 |---|---|
 | Mudança de código com O QUÊ, ONDE e COMO já definidos | É o papel dele: executar prescrição literal, sem reabrir decisão de arquitetura |
 | Decidir arquitetura, schema de banco ou cutoff clínico | Sobe pro gerente (nível Opus/staff) — residente está proibido de decidir isso |
-| Reestruturar código para ficar mais limpo, sem prescrição linha a linha, decidindo a forma | `refatorador` — residente só reestrutura se a missão já disser exatamente o quê mudar |
+| Reestruturar código para ficar mais limpo, sem prescrição linha a linha, decidindo a forma | sessão principal decide a forma; residente só reestrutura se a missão já disser exatamente o quê mudar |
 | Conferir se a entrega de código está correta, achar furo escondido | `fiscal` — residente confere o próprio diff, não audita adversarialmente |
-| Escrever teste para código que OUTRO agente ou pessoa já escreveu | `testador` — residente só escreve teste quando a lógica nova é dele mesmo nesta missão |
-| Mapear repo inteiro antes de decidir onde mexer | `onboarder` ou `arquiteto` — residente recebe o arquivo já apontado, não explora o repo à toa |
+| Escrever teste para código que OUTRO agente ou pessoa já escreveu | missão própria — residente só escreve teste quando a lógica nova é dele mesmo nesta missão |
+| Mapear repo inteiro antes de decidir onde mexer | `batedor` — residente recebe o arquivo já apontado, não explora o repo à toa |
 
 ## Ferramentas e por quê
 

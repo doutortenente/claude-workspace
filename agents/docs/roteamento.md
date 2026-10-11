@@ -9,34 +9,21 @@
 | …um resumo do terreno (onde mora X, o que tem nessa pasta, o que o log diz) | `batedor` |
 | …a saída de um script que já existe | `caco` |
 | …um boletim de saúde da máquina com checklist fixo | `zelador` |
-| …um mapa do repositório inteiro pra quem chega nele | `onboarder` |
-| …a explicação de UM arquivo ou UM diff | `code-explainer` |
-| …uma sequência de despachos (quem chamar, em que ordem) | `arquiteto` |
 | …código de produto novo ou alterado | `residente` |
-| …um script de infra em `~/projetos/scripts` | `chefe` |
-| …a mesma função com estrutura melhor e comportamento igual | `refatorador` |
-| …um ganho de velocidade medido antes e depois | `otimizador` |
-| …teste para código que outro escreveu | `testador` |
+| …um script de infra em `~/src/scripts` | `chefe` |
 | …uma tentativa de derrubar as afirmações de uma entrega | `fiscal` |
-| …achados de segurança priorizados | `segurador` |
-| …um veredito de "pode mergear?" | `deploy-sentinel` |
-| …doc de repositório atualizada | `documentador` |
+| …a conferência de que o que está escrito no repo bate com o disco | `auditor-do-repo` |
 | …memória do operador atualizada | `secretaria` |
-| …a lista de campos clínicos sem fonte | `clinical-data-auditor` |
-| …a validação de uma afirmação clínica com PMID | `pubmed-evidence-checker` |
 
 ## Confusões que custam caro
 
 | Você ia chamar | Mas o certo é | Porque |
 |---|---|---|
-| `batedor` pra mapear um repo inteiro | `onboarder` | `batedor` responde 1 pergunta; `onboarder` entrega o mapa completo, uma vez |
-| `residente` pra escrever teste do que ele acabou de implementar | `testador` | Teste do autor cobre o que o autor pensou, não o que esqueceu |
-| `residente` pra "limpar esse código" | `refatorador` | `refatorador` congela comportamento e exige teste verde antes; é isso que torna a mudança revisável |
-| `fiscal` pra saber se está lento | `otimizador` | `fiscal` verifica corretude, não desempenho |
-| `deploy-sentinel` pra auditar segurança | `segurador` | `deploy-sentinel` confere build/typecheck/lint/RLS, não vazamento de segredo nem PHI em log |
-| `secretaria` pra atualizar o README | `documentador` | `secretaria` cuida da memória do operador em `~/.claude/memory`; README é doc de repo |
-| `Plan` nativo pra decidir quantos agentes usar | `arquiteto` | `Plan` desenha a implementação; `arquiteto` desenha a fila de despachos |
+| `fiscal` pra saber se está lento | medir direto | `fiscal` verifica corretude, não desempenho |
+| `fiscal` pra conferir caminho citado em documento | `auditor-do-repo` | `auditor-do-repo` compara texto × disco; `fiscal` refuta entrega |
+| `secretaria` pra atualizar o README | sessão principal | `secretaria` cuida da memória do operador; README é doc de repo |
 | `caco` pra criar um script | `chefe` | `caco` só roda o que já existe; quem projeta é o `chefe` |
+| `batedor` pra alterar código | `residente` | `batedor` só lê |
 
 ## Quando NÃO despachar ninguém
 

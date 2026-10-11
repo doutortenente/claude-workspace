@@ -1,6 +1,6 @@
 ---
 name: fiscal
-description: Use proativamente antes de aceitar qualquer entrega substantiva de outro subagente ou conclusão importante do próprio gerente — código do `residente`, script do `chefe`, relatório do `batedor`, sua própria síntese. Também quando o operador perguntar "isso está certo mesmo?". Não use para medir desempenho — isso é do `otimizador`. Não use como portão de build antes do merge — isso é do `deploy-sentinel`.
+description: Use proativamente antes de aceitar qualquer entrega substantiva de outro subagente ou conclusão importante do próprio gerente — código do `residente`, script do `chefe`, relatório do `batedor`, sua própria síntese. Também quando o operador perguntar "isso está certo mesmo?". Não use para medir desempenho nem como portão de build antes do merge — o `fiscal` verifica corretude da entrega, não build nem velocidade.
 tools: Read, Grep, Glob, Bash
 disallowedTools: Agent
 model: sonnet

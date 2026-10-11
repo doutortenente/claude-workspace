@@ -1,20 +1,20 @@
 ---
 name: add-skill
-description: Põe uma skill nova em serviço neste repo (~/projetos/claude). Aciona quando o operador disser "cria uma skill", "adiciona essa skill", "põe essa skill pra rodar", "instala essa skill", "liga a skill X", "vendoriza essa skill", "achei essa skill no GitHub, traz pra cá", ou quando uma skill pronta precisar sair da reserva fria e entrar em operação. Procedimento executável: escolher pacote, criar a pasta, validar o SKILL.md, ligar o symlink, regerar o índice e fechar por branch e PR.
+description: Põe uma skill nova em serviço neste repo (~/src/Claude-workspace). Aciona quando o operador disser "cria uma skill", "adiciona essa skill", "põe essa skill pra rodar", "instala essa skill", "liga a skill X", "vendoriza essa skill", "achei essa skill no GitHub, traz pra cá", ou quando uma skill pronta precisar sair da reserva fria e entrar em operação. Procedimento executável: escolher pacote, criar a pasta, validar o SKILL.md, ligar o symlink, regerar o índice e commitar e dar push.
 ---
 
 # Colocar uma skill em serviço
 
-Doutrina — as duas casas, escolha do pacote, procedência e quando **recusar** uma skill de terceiro — está em [`.claude/rules/vendorization.md`](../../rules/vendorization.md). Leia antes se a skill veio de fora. Aqui é só o procedimento.
+Skill de terceiro: confira a licença antes de trazer (`CLAUDE.md` §5) e recuse a que proíbe redistribuição, porque este repo é público. Aqui é só o procedimento.
 
 Antes de qualquer passo, a pergunta que barra 90% dos casos: **ela vai ser usada de verdade?** Cada skill ligada injeta `name` + `description` em **toda** mensagem, para sempre (hoje: 11.173 caracteres). Skill que fica bonita e não roda é pedágio — vai pra reserva fria, não pra `skills-que-prestam/`.
 
 ## 1. Escolher o pacote
 
-Cinco pacotes, não se inventa o sexto — tabela em `.claude/rules/vendorization.md`. Confirme o que já existe antes de criar coisa nova:
+Cinco pacotes, não se inventa o sexto: `00-pacote-ide-e-documentacao`, `01-pacote-skills-medicas`, `02-pacote-skills-workspace`, `03-pacote-skills-claude-nativas`, `04-pacote-skills-supabase-e-vercel`. Confirme o que já existe antes de criar coisa nova:
 
 ```bash
-python3 ~/projetos/scripts/indices/query_claude_index.py skills | grep -i <palavra-chave>
+python3 ~/src/scripts/indices/query_claude_index.py skills | grep -i <palavra-chave>
 ```
 
 Achou skill que já faz isso? Melhore a existente. Duplicar competência é o pecado da bola de neve.
@@ -22,7 +22,7 @@ Achou skill que já faz isso? Melhore a existente. Duplicar competência é o pe
 ## 2. Criar a pasta e o SKILL.md
 
 ```bash
-cd /home/dr/projetos/claude
+cd /home/dr/src/Claude-workspace
 mkdir -p skills-que-prestam/<pacote>/<nome-em-kebab-case>
 ```
 
@@ -38,18 +38,18 @@ description: <QUANDO acionar — é esta linha que faz o Claude escolher a skill
 
 `description` que descreve *o que a skill faz* em vez de *quando usar* não dispara nunca. Cite os gatilhos literais.
 
-Se a skill trouxer `scripts/`, eles ficam **dentro** da pasta dela — é a única exceção à casa única de scripts (`~/projetos/scripts/`); tirar de lá quebra a skill. Skill de terceiro entra sem `.git/` e sem `node_modules/`.
+Se a skill trouxer `scripts/`, eles ficam **dentro** da pasta dela — é a única exceção à casa única de scripts (`~/src/scripts/`); tirar de lá quebra a skill. Skill de terceiro entra sem `.git/` e sem `node_modules/`.
 
 ## 3. Ligar o atalho
 
 **Symlink** = atalho: o conteúdo mora num lugar só (o repo) e o atalho aponta pra ele. Caminho **absoluto**, igual aos 36 já existentes:
 
 ```bash
-ln -s /home/dr/projetos/claude/skills-que-prestam/<pacote>/<nome> ~/.claude/skills/<nome>
-ls -l ~/.claude/skills/<nome>          # tem de mostrar o destino, não "No such file"
+ln -s /home/dr/src/Claude-workspace/skills-que-prestam/<pacote>/<nome> $CLAUDE_CONFIG_DIR/skills/<nome>
+ls -l $CLAUDE_CONFIG_DIR/skills/<nome>          # tem de mostrar o destino, não "No such file"
 ```
 
-Desligar uma skill = apagar **só o atalho** (`rm ~/.claude/skills/<nome>`). A pasta continua no repo.
+Desligar uma skill = apagar **só o atalho** (`rm $CLAUDE_CONFIG_DIR/skills/<nome>`). A pasta continua no repo.
 
 ## 4. Provar que carregou
 
@@ -58,9 +58,9 @@ Reinicie a sessão do Claude Code e confirme que a skill aparece na lista de ski
 ## 5. Regerar índice, atualizar número, fechar
 
 ```bash
-python3 ~/projetos/scripts/indices/build_claude_index.py
+python3 ~/src/scripts/indices/build_claude_index.py
 ```
 
-Atualize a contagem por pacote e o total em `docs/REPOSITORY-INVENTORY.md` — número publicado que envelhece vira mentira. Depois: branch, PR, merge (o merge não pede confirmação; commit direto em `main` é proibido — `.claude/rules/git-workflow.md`).
+Atualize a contagem por pacote e o total no `README.md` ("Números medidos") e no `CLAUDE.md` §1 — número publicado que envelhece vira mentira. Depois: commit e push (commit direto em `main` é permitido — `CLAUDE.md` §6).
 
 Antes de dizer que acabou, rode a skill `verify-before-finish`.

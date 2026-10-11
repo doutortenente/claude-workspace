@@ -8,11 +8,11 @@ tenta REFUTAR cada afirmação dela com evidência real — não confirma por co
 
 | Situação | Por que este agente e não o vizinho |
 |---|---|
-| Código do residente entregue como pronto | fiscal roda o teste de novo e confere arquivo:linha; **testador** escreve teste novo para código sem cobertura — papéis diferentes |
+| Código do residente entregue como pronto | fiscal roda o teste de novo e confere arquivo:linha; escrever teste novo para código sem cobertura é outro papel (do `residente`, em missão própria) |
 | Script de infra do chefe entregue | fiscal audita o claim ("funciona", "testei"); chefe não se autoverifica |
 | Relatório do batedor com "arquivo X faz Y" | fiscal confere se o arquivo:linha citado existe de fato — batedor faz reconhecimento, não autoauditoria |
 | Conclusão importante do gerente antes de virar decisão | fiscal é o único papel dedicado a tentar derrubar uma afirmação, não só lê-la |
-| Entrega já testada e você só quer alterá-la | não despachar fiscal — sem Write/Edit ele não corrige nada, é o **residente/refatorador** que mexe no código |
+| Entrega já testada e você só quer alterá-la | não despachar fiscal — sem Write/Edit ele não corrige nada, é o **residente** que mexe no código |
 
 ## Ferramentas e por quê
 
@@ -29,7 +29,7 @@ consertar com outro agente. Misturar "verificar" com "corrigir" contamina a fisc
 não terceirizada, e isso mantém a hierarquia em 2 níveis (gerente → fiscal, sem fiscal virar líder de squad).
 
 ## Dependências
-Nenhuma além das ferramentas nativas listadas acima. O corpo do agente não cita script de `~/projetos/scripts/`,
+Nenhuma além das ferramentas nativas listadas acima. O corpo do agente não cita script de `~/src/scripts/`,
 servidor **MCP** (protocolo de ferramenta externa) nem arquivo de configuração fixo — ele reaproveita, via Bash, o
 comando de teste/build que a própria entrega já usa (ex.: Vitest, typecheck), sem nome fixado no arquivo.
 

@@ -1,7 +1,7 @@
 # chefe — documentação
 
 ## O que faz
-Engenheiro-chefe do arsenal de scripts do Tijolão (`~/projetos/scripts/`). Decide qual script resolve um problema de infra, projeta e escreve/altera scripts, e revisa o resultado de execuções feitas pelo **caco**. Não executa rotina em produção — só teste de fumaça (rodada rápida de verificação) do que acabou de escrever.
+Engenheiro-chefe do arsenal de scripts do Tijolão (`~/src/scripts/`). Decide qual script resolve um problema de infra, projeta e escreve/altera scripts, e revisa o resultado de execuções feitas pelo **caco**. Não executa rotina em produção — só teste de fumaça (rodada rápida de verificação) do que acabou de escrever.
 
 ## Quando despachar
 
@@ -26,9 +26,9 @@ Engenheiro-chefe do arsenal de scripts do Tijolão (`~/projetos/scripts/`). Deci
 `disallowedTools: Agent` — chefe não pode lançar outro subagente. A hierarquia da frota é de 2 níveis: quem decide despachar o **caco** é o agente principal, não o chefe.
 
 ## Dependências
-- Pasta `~/projetos/scripts/` com as 5 gavetas (`indices/`, `pc/`, `nuvem/`, `sasi/`, `obsidian/`) — casa única de todo script de infra.
+- Pasta `~/src/scripts/` com as 5 gavetas (`indices/`, `pc/`, `nuvem/`, `sasi/`, `obsidian/`) — casa única de todo script de infra.
 - `pip install --user --break-system-packages <lib>` para biblioteca externa (autorizado pelo operador, 03-jul-2026).
-- Scripts cabeados fora de `~/projetos` que não podem ser movidos sem atualizar quem chama: systemd `fix-ide-mcp.service` → `scripts/pc/fix_ide_mcp.py`; `.mcp.json` → `scripts/sasi/mcp_sasi_wrapper.sh`.
+- Scripts cabeados fora de `~/src` que não podem ser movidos sem atualizar quem chama: `.mcp.json` → `scripts/sasi/mcp_sasi_wrapper.sh`.
 
 ## Skills relacionadas
 Nenhuma identificada no corpo do agente.
@@ -44,7 +44,7 @@ ajuste ou se é só rodar de novo. Não rode a rotina — devolva a ordem pro ca
 ```
 
 ## Armadilhas conhecidas
-- Mover script sem checar quem o chama primeiro (`grep -rn <nome> ~/projetos ~/.claude/memory ~/.config/systemd`) — os 2 scripts cabeados fora do workspace quebram em silêncio se movidos sem atualizar a referência externa.
+- Mover script sem checar quem o chama primeiro (`grep -rn <nome> ~/src $CLAUDE_CONFIG_DIR/memory ~/.config/systemd`) — os 2 scripts cabeados fora do workspace quebram em silêncio se movidos sem atualizar a referência externa.
 - Rodar `rm -rf` sem listagem COMPLETA do alvo antes — já causou perda irrecuperável em 30-jun-2026.
 - Esquecer de lembrar o agente principal de registrar script novo/alterado no `comando.md`.
 

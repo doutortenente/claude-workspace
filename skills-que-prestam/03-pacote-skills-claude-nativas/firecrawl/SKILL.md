@@ -348,8 +348,8 @@ to sign up at https://www.firecrawl.dev/signin.
 
 ## Session-specific auth
 
-A chave fica no cofre `~/projetos/.env`, nunca neste arquivo — este repo e publico.
+A chave fica no cofre `~/.local/secrets/.env`, nunca neste arquivo — este repo e publico.
 
 ```bash
-export FIRECRAWL_API_KEY=$(grep -m1 '^FIRECRAWL_API_KEY=' ~/projetos/.env | cut -d= -f2-)
+export FIRECRAWL_API_KEY=$(grep -m1 '^FIRECRAWL_API_KEY=' ~/.local/secrets/.env | cut -d= -f2-)
 ```

@@ -7,19 +7,19 @@
 # Skill de plantão cobrada fora do plantão é pedágio puro.
 #
 # COMO FUNCIONA
-# Lê uma palavra de ~/.claude/modo e reescreve o bloco "skillOverrides" do
-# ~/.claude/settings.json: o grupo do modo fica ligado, todo o resto vira
+# Lê uma palavra de $CLAUDE_CONFIG_DIR/modo e reescreve o bloco "skillOverrides" do
+# $CLAUDE_CONFIG_DIR/settings.json: o grupo do modo fica ligado, todo o resto vira
 # "off" — a skill some da lista e não é cobrada.
 #
 # Roda no SessionStart e devolve reloadSkills:true — a troca vale na sessão
 # em curso, sem reiniciar o Claude Code.
 #
-# TROCAR DE MODO:  ~/projetos/claude/.claude/hooks/modo  plantao
+# TROCAR DE MODO:  ~/src/Claude-workspace/.claude/hooks/modo  plantao
 set -uo pipefail
 
-MODO_FILE="${HOME}/.claude/modo"
-SETTINGS="${HOME}/.claude/settings.json"
-SKILLS_DIR="${HOME}/.claude/skills"
+MODO_FILE="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/modo"
+SETTINGS="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/settings.json"
+SKILLS_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills"
 
 # Sem arquivo de modo, o padrão é o mais barato: nada ligado.
 MODO="nada"
@@ -55,7 +55,7 @@ for link in "$SKILLS_DIR"/*/; do
   # ferramenta de trabalho, não skill de domínio: ficam SEMPRE ligadas, em
   # qualquer modo e em qualquer diretório. Custo das três, medido 04-set-2026
   # pelo endpoint count_tokens: 383 tokens/msg.
-  if [ -z "$alvo" ] || [[ "$alvo" == */claude/.claude/skills/* ]]; then
+  if [ -z "$alvo" ] || [[ "$alvo" == */.claude/skills/* ]]; then
     ligadas=$((ligadas+1)); continue
   fi
 

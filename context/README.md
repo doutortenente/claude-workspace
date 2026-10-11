@@ -1,33 +1,34 @@
 # Contexto do operador
 
-> Este diretório é a fonte canônica do **contexto e configuração** do Claude Code do Dr. Tenente.
-> Foi importado de `~/.claude/CLAUDE.md`, `~/.claude/memory/` e `~/.claude/settings.json` em 30-ago-2026
-> para versionar o que vivia só no disco local e corria risco de perda.
+> Este diretório versiona o **contexto e a configuração** do Claude Code do Dr. Tenente, que antes vivia só no
+> disco local e corria risco de perda. Importado em 30-ago-2026; limpo em 11-out-2026 (memória manual e templates
+> do Codex removidos).
 
 ## Estrutura
 
-| Arquivo | Origem | O que é |
-| --- | --- | --- |
-| `global-claude-persona.md` | `~/.claude/CLAUDE.md` | Persona global: regra de tradução, perfil Goggins, conselho dos alfas, formato de saída |
-| `memory/comando.md` | `~/.claude/memory/comando.md` | Memória manual: perfil, arquitetura de informação, frota de subagentes, débitos abertos |
-| `memory/debitos.md` | `~/.claude/memory/debitos.md` | Débitos técnicos e clínicos (SASI, infra, credenciais) |
-| `memory/log.md` | `~/.claude/memory/log.md` | Histórico de sessões e ações |
-| `memory/alpha-council.md` | `~/.claude/memory/alpha-council.md` | Doutrina Alpha Council — organização de vida |
+| Arquivo | O que é |
+| --- | --- |
+| `global-claude-persona.md` | Persona global: regra de tradução, perfil, formato de saída, ambiente |
+| `workspace-claude.md` | Mapa dos repos em `~/src/` e dos scripts de infra |
+| `runtime-map.md` | Quem usa o quê no PC (Claude Code, Hermes, Obsidian…) |
+| `runbook-runtime.md` | Rotinas de runtime: ligar skill, trocar token, resolver sintoma |
+| `claude/settings.example.json` | Template do `settings.json` do runtime (sem segredo) |
+| `claude/settings.local.example.json` | Template do `settings.local.json` |
+| `mcp/*.json` | Templates de servidores MCP |
 
 ## Sincronização
 
-Este diretório é a fonte. O runtime (`~/.claude/`) é preenchido pelo script
-`~/projetos/claude/scripts/sync-claude-config.sh`:
+O runtime é `$CLAUDE_CONFIG_DIR` (nesta máquina, `~/.config/claude`). O script que o preenche a partir deste diretório:
 
 ```bash
-python3 ~/projetos/claude/scripts/sync-claude-config.py --apply
+python3 ~/src/Claude-workspace/scripts/sync-claude-config.py           # simulação, não grava nada
+python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply   # grava
 ```
 
-Regra: **editar aqui, sincronizar para fora.** Nunca editar diretamente em `~/.claude/CLAUDE.md`
-ou `~/.claude/memory/` — a cópia ali é sempre regenerada deste repo.
+**Cuidado com o `--apply`:** ele **sobrescreve** `settings.json` do runtime com o template e cria 1 symlink por skill em
+`$CLAUDE_CONFIG_DIR/skills/`. Rode a simulação primeiro e compare com o `settings.json` atual.
 
 ## Segurança
 
 - Nenhum arquivo neste diretório contém chave, token ou senha.
-- Valores de segredo que apareciam em débitos foram substituídos por `[SEGURO_REDACTED]`.
-- A chave real morre em `~/projetos/.env` (permissão 600, fora do git).
+- A chave real mora em `~/.local/secrets/.env` (permissão 600, fora do git).

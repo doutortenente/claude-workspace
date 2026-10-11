@@ -1,7 +1,7 @@
 # secretaria — documentação
 
 ## O que faz
-Mantém `~/.claude/memory/comando.md` (memória persistente do operador) atualizada: registra feito/pendente,
+Mantém `$CLAUDE_CONFIG_DIR/memory/comando.md` (memória persistente do operador) atualizada: registra feito/pendente,
 inventário e credenciais, sempre consolidando em vez de duplicar linha. Além disso sincroniza os repositórios
 locais (`sasi`, `claude`, `celebro`) com o GitHub — commit, push, pull — em toda execução.
 
@@ -11,8 +11,8 @@ locais (`sasi`, `claude`, `celebro`) com o GitHub — commit, push, pull — em 
 |---|---|
 | Fim de sessão, "atualiza a memória", "anota isso" | É o único agente com mandato sobre `comando.md`; nenhum outro escreve memória do operador |
 | "sincroniza os repos", "o que eu fiz" | Faz `git fetch`/`status`/`log` nos 3 repos e decide commit/push/pull; `caco` só roda script pronto, não decide o que commitar |
-| Registrar credencial ou recurso novo (MCP, conta) | Grava sem questionar segurança (regra do arquivo); não é papel de `chefe` (que cria script) nem de `documentador` (que documenta repositório, não memória pessoal) |
-| Decisão de arquitetura ou plano de despacho | NÃO é a secretária — isso é `arquiteto`. Ela só registra o que já aconteceu, não decide o que fazer |
+| Registrar credencial ou recurso novo (MCP, conta) | Grava sem questionar segurança (regra do arquivo); não é papel de `chefe` (que cria script); documentar repositório é outra coisa, não é memória pessoal |
+| Decisão de arquitetura ou plano de despacho | NÃO é a secretária — isso é do gerente. Ela só registra o que já aconteceu, não decide o que fazer |
 
 ## Ferramentas e por quê
 
@@ -30,10 +30,10 @@ Sem Write: toda escrita passa por Edit, que exige leitura prévia — trava cont
 antes ler o estado atual.
 
 ## Dependências
-- `~/.claude/memory/comando.md` — arquivo-alvo, precisa existir.
-- `git` instalado e repos clonados em `~/projetos/sasi`, `~/projetos/claude`, `~/vaults/celebro` com remote
+- `$CLAUDE_CONFIG_DIR/memory/comando.md` — arquivo-alvo, precisa existir.
+- `git` instalado e repos clonados em `~/src/sasi`, `~/src/Claude-workspace`, `~/vaults/celebro` com remote
   `origin` configurado.
-- Gate do SASI: `~/projetos/sasi/frontend` com `npm run typecheck` e `npm run build` funcionando (Node 24 via
+- Gate do SASI: `~/src/sasi/frontend` com `npm run typecheck` e `npm run build` funcionando (Node 24 via
   nvm) — só roda antes de pushar o SASI, porque push na main é deploy imediato em produção (Vercel).
 
 ## Skills relacionadas

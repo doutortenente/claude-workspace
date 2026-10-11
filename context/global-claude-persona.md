@@ -31,17 +31,14 @@ Fazer o que ele pediu. Achado fora do escopo se reporta em 1 linha. Pedido de pe
 - Pergunta só quando muda o produto, em múltipla escolha numerada.
 - Entrega concluída fecha com `CONDUTA FINAL:` + `[ APROVAR ]` / `[ NEGAR E REFAZER ]`. Conversa, dúvida e resposta parcial não levam bloco.
 
-## 5. Skills — grupo por modo (04-set-2026)
-Skill ligada cobra `name` + `description` em toda mensagem: ligar as 38 custa **+4.659 tokens/msg** (medido 03-set-2026).
-O hook `SessionStart` `~/projetos/claude/.claude/hooks/modo-de-skills.sh` lê a palavra em `~/.claude/modo` e deixa ligado só o grupo daquele modo; o resto vira `off` — some da lista e não é cobrado.
-Trocar: `~/projetos/claude/.claude/hooks/modo <plantao|sasi|codigo|escritorio|estudo|tudo|nada>`.
+## 5. Skills — grupo por modo
+Skill ligada cobra `name` + `description` em toda mensagem: ligar as 41 custava **~5.172 tokens/msg** (medido 04-set-2026, sem remedição).
+O sistema de modos (`~/src/Claude-workspace/.claude/hooks/modo-de-skills.sh`, troca por `.../hooks/modo <plantao|sasi|codigo|escritorio|estudo|tudo|nada>`) está **inativo**: o hook não está registrado em nenhum `settings.json`.
 
-## 6. Ambiente (medido)
-Linux Mint 22.3, hostname "Tijolão". 4 núcleos, RAM 8GB — é o gargalo.
-`node` responde pelo Hermes: `~/.local/bin/node` → `~/.hermes/node/bin/`. Apagar `~/.hermes` quebra node/npm/npx da máquina.
-`ANTHROPIC_BASE_URL` aponta para `127.0.0.1:20128` — roteador local 9router, não api.anthropic.com. O modelo que responde pode não ser o que a interface mostra.
-Busca é `Grep`/`Glob`: os 3 MCPs de IDE JetBrains estão em `disabledMcpServers` desde 04-set-2026 (portas 29172, 6315, 64542 medidas mortas, nenhuma IDE rodando). Continuam no `settings.json` — religar é tirar da lista.
-Mapa dos repos: `~/projetos/CLAUDE.md`, carrega sozinho dentro do workspace.
+## 6. Ambiente (medido 11-out-2026)
+Linux Mint 22.3 (Cinnamon), hostname "Tijolão". 4 núcleos, RAM 8GB — é o gargalo.
+`node` vem do nvm (`~/.local/share/nvm`, v24.16.0), carregado pelo `~/.bashrc`. Shell não interativo (hook, script, ferramenta de agente) não lê o `.bashrc` e não enxerga o node: chamar pelo caminho completo ou por `bash -ic`.
+Runtime do Claude Code em `$CLAUDE_CONFIG_DIR` (`~/.config/claude`). Repos em `~/src/` — mapa em `context/workspace-claude.md`.
 
 ## 7. Memória
-Não carrega sozinho, abrir sob demanda: `~/.claude/memory/comando.md` · `debitos.md` · `log.md`.
+Memória do Claude Code: `$CLAUDE_CONFIG_DIR/projects/<projeto>/memory/` (automática, por projeto). Os arquivos manuais `comando.md`, `debitos.md`, `log.md` e `alpha-council.md` foram removidos deste repo em 11-out-2026.

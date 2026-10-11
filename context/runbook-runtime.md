@@ -9,21 +9,21 @@
 **Diagnóstico:**
 ```bash
 # A skill existe no repo?
-find ~/projetos/claude/skills-que-prestam -name SKILL.md | grep <nome>
+find ~/src/Claude-workspace/skills-que-prestam -name SKILL.md | grep <nome>
 
 # O symlink existe e aponta certo?
-ls -la ~/.claude/skills/<nome>
-readlink -f ~/.claude/skills/<nome>
+ls -la $CLAUDE_CONFIG_DIR/skills/<nome>
+readlink -f $CLAUDE_CONFIG_DIR/skills/<nome>
 ```
 
 **Fix:**
 ```bash
 # Sincroniza tudo (recria symlinks quebrados)
-python3 ~/projetos/claude/scripts/sync-claude-config.py --apply
+python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply
 
 # Ou corrige individualmente
-rm ~/.claude/skills/<nome>
-ln -s ~/projetos/claude/skills-que-prestam/<pacote>/<nome> ~/.claude/skills/<nome>
+rm $CLAUDE_CONFIG_DIR/skills/<nome>
+ln -s ~/src/Claude-workspace/skills-que-prestam/<pacote>/<nome> $CLAUDE_CONFIG_DIR/skills/<nome>
 ```
 
 ## 2. Claude Code "não conecta" — erro de auth
@@ -32,49 +32,34 @@ ln -s ~/projetos/claude/skills-que-prestam/<pacote>/<nome> ~/.claude/skills/<nom
 
 **Diagnóstico:**
 ```bash
-grep ANTHROPIC_AUTH_TOKEN ~/.claude/settings.json | head -1  # deve mostrar token, não ${...}
+ls -l "$CLAUDE_CONFIG_DIR/.credentials.json"      # deve existir, permissão -rw-------
+python3 -c "import json,os; s=json.load(open(os.environ['CLAUDE_CONFIG_DIR']+'/settings.json')); print(list(s.get('env',{})))"
 ```
 
-**Fix:**
-```bash
-# O sync script preserva o token existente. Se sumiu, restaura do .env:
-source ~/projetos/.env && sed -i "s/\"ANTHROPIC_AUTH_TOKEN\":.*/\"ANTHROPIC_AUTH_TOKEN\": \"$ANTHROPIC_AUTH_TOKEN\"/" ~/.claude/settings.json
-
-# Verifica
-python3 -c "import json; s=json.load(open('/home/dr/.claude/settings.json')); print(len(s['env']['ANTHROPIC_AUTH_TOKEN']))"
-```
+**Fix:** dentro do Claude Code, rodar `/login`. Se `settings.json` tiver `env.ANTHROPIC_AUTH_TOKEN` vazio ou
+com `${...}`, corrigir com `jq` + `mktemp` + `mv` (nunca `sed -i` nem redirecionar direto pro original — se o
+comando falhar o arquivo fica vazio e a sessão cai).
 
 ## 3. MCP server não responde
 
 **Sintoma:** Claude Code diz "MCP server não respondeu" ou "connection refused".
 
-**Diagnóstico:**
-```bash
-# Qual MCP tá caído?
-python3 ~/projetos/claude/scripts/sync-claude-config.py 2>&1 | grep -i "✓.*http\|✗"
-```
+**Diagnóstico:** `/mcp` dentro do Claude Code lista cada servidor e o estado.
 
 **Fix por server:**
 | Server | Como resolver |
 |---|---|
-| `jetbrains-index` | Reinicia a IDE → porta muda → o `fix_ide_mcp.py` detecta e atualiza. Rode `python3 ~/projetos/scripts/pc/fix_ide_mcp.py` |
 | `obsidian` | Reinicia o Obsidian → porta 27123 volta. Se não, reinicia o bridge MCP |
 | `supabase` | No menu `/mcp` → Supabase → "Clear authentication" → autenticar de novo |
 | `playwright` | `npx @playwright/mcp@latest --help` para testar. Pode precisar `npx playwright install` |
 | `agentbridge` | DESABILITADO (endpoint quebrado). Não tem fix — só reativar quando houver endpoint válido |
 
-## 4. Memória do operador não atualiza
+## 4. Skill ou agente do repo não aparece depois de editar
 
-**Sintoma:** Claude responde com informação antiga que eu já corrigi em `~/.claude/memory/`.
+**Sintoma:** Editei o `SKILL.md` ou o agente no repo e o Claude Code continua com o velho.
 
-**Fix:**
-```bash
-# Push do repo para runtime
-python3 ~/projetos/claude/scripts/sync-claude-config.py --apply
-
-# Ou copia individual
-cp ~/projetos/claude/context/memory/comando.md ~/.claude/memory/
-```
+**Fix:** o Claude Code só enxerga o que está em `$CLAUDE_CONFIG_DIR/skills/` e `$CLAUDE_CONFIG_DIR/agents/`
+(ou em `.claude/` do projeto aberto). Confira o passo 1 (symlink) e reinicie a sessão.
 
 ## 5. CLAUDE.md global não reflete mudança
 
@@ -82,9 +67,9 @@ cp ~/projetos/claude/context/memory/comando.md ~/.claude/memory/
 
 **Fix:**
 ```bash
-python3 ~/projetos/claude/scripts/sync-claude-config.py --apply
+python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply
 # confirma:
-diff ~/.claude/CLAUDE.md ~/projetos/claude/context/global-claude-persona.md  # deve sair vazio
+diff $CLAUDE_CONFIG_DIR/CLAUDE.md ~/src/Claude-workspace/context/global-claude-persona.md  # deve sair vazio
 ```
 
 ## 6. Hook não roda
@@ -94,12 +79,11 @@ diff ~/.claude/CLAUDE.md ~/projetos/claude/context/global-claude-persona.md  # d
 **Diagnóstico:**
 ```bash
 # O caminho do hook existe e é executável?
-H=$(grep -o '"command":[^,}]*' ~/.claude/settings.json | sed 's/"command": *"//;s/"$//')
+H=$(grep -o '"command":[^,}]*' $CLAUDE_CONFIG_DIR/settings.json | sed 's/"command": *"//;s/"$//')
 for cmd in $H; do test -x "$cmd" && echo "✓" || echo "✗ $cmd"; done
 ```
 
-**Fix:** se o hook aponta pra fora do repo (ex: `~/.codex/hooks/prefer-ide-tools.sh` — caminho quebrado),
-recomece o path para `.claude/hooks/` do repo.
+**Fix:** se o hook aponta pra fora do repo (caminho quebrado), refaça o path para `.claude/hooks/` do repo.
 
 ## 7. using-superpowers some ou duplica skills
 
@@ -116,12 +100,11 @@ recomece o path para `.claude/hooks/` do repo.
 
 ```bash
 # 1. Clona o repo
-git clone https://github.com/doutortenente/Claude.git ~/projetos/claude
+git clone https://github.com/doutortenente/Claude.git ~/src/Claude-workspace
 
 # 2. Sincroniza tudo
-python3 ~/projetos/claude/scripts/sync-claude-config.py --apply
-# (vai pedir ANTHROPIC_AUTH_TOKEN — cole do ~/projetos/.env ou do cofre Vaultwarden)
+python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply
+# (simule antes sem --apply: ele sobrescreve o settings.json do runtime)
 
-# 3. Reinstala plugins do marketplace
-# (using-superpowers, hooks-development, nextjs-expert — via Claude Code marketplace)
+# 3. Reinstala plugins do marketplace pelo `/plugin` do Claude Code
 ```

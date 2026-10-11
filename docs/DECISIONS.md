@@ -13,7 +13,7 @@
 | 3 | Skills em 5 pacotes temáticos | 01-ago-2026 |
 | 4 | Reserva fria fora deste repo | 07-ago-2026 |
 | 5 | Subagentes em pasta própria | 07-ago-2026 |
-| 6 | Push e merge sem confirmação | 28-jul-2026 |
+| 6 | Push e merge sem confirmação; commit direto em `main` permitido (revisada 11-out-2026) | 28-jul-2026 |
 | 7 | Sem backup local | 10-jul-2026 |
 | 8 | Hook que não roda é removido | 22-jul-2026 |
 | 9 | Índice em `memory/`, `ide/` fora do indexador | 08-ago-2026 |
@@ -23,6 +23,7 @@
 | 13 | `_anthropic/` tem duas licenças; repo segue público | 09-ago-2026 |
 | 14 | Com a IDE viva, Grep/Glob/`sed -i` em massa são barrados 1× | 09-ago-2026 |
 | 15 | Contexto do operador versionado em `context/` + sync script | 30-ago-2026 |
+| 16 | Limpeza de 11-out-2026: 11 agentes e 2 docs removidos, runtime em `$CLAUDE_CONFIG_DIR`, repos em `~/src` | 11-out-2026 |
 
 ---
 
@@ -130,7 +131,10 @@ ls ~/projetos/claude/agents/docs | wc -l                          # 6
 
 ---
 
-### 6. Push e merge sem pedir confirmação; commit direto em `main` proibido (28-jul-2026)
+### 6. Push e merge sem pedir confirmação; commit direto em `main` permitido (28-jul-2026, revisada em 11-out-2026)
+
+> **Revisão de 11-out-2026:** o operador mandou remover a proibição de commit direto na `main`. Vale agora só a metade
+> sobre confirmação: não se pergunta antes de push e merge. Branch e PR ficam opcionais. O texto abaixo é o original.
 
 **Decisão:** ao concluir um trabalho, o fluxo é **branch** (linha de trabalho paralela) → **PR** (pedido de incorporação
 revisável) → **merge** (junção na linha principal), e o merge acontece sem parar para perguntar. **Commit** (registro
@@ -271,7 +275,7 @@ grep -rn 'claude-steroid' ~/projetos/claude/ --include='*.md' --exclude-dir=.git
 
 **Decisão:** ordem direta do operador. Toda regra e restrição sobre **PHI** (dado que identifica paciente) sai da
 governança deste repositório. A regra que se chamava `security-and-phi.md` virou
-[`security-and-secrets.md`](../.claude/rules/security-and-secrets.md) sem a seção de PHI, o gancho parou de barrar
+`security-and-secrets.md` (removido junto com `.claude/rules/`) sem a seção de PHI, o gancho parou de barrar
 caminho com `PHI` no nome, e a conferência de PHI saiu da lista pré-commit (6 itens viraram 5).
 
 **Problema que resolveu:** o operador quis a governança do repo tratando só de segredo e credencial. Regra clínica que
@@ -385,6 +389,33 @@ ls ~/.claude/skills/ | wc -l                                   # 43 (42 symlinks
 # 3. Sync script executa e preserva token
 python3 ~/projetos/claude/scripts/sync-claude-config.py --apply
 python3 -c "import json; s=json.load(open('/home/dr/.claude/settings.json')); print('token OK:', s['env']['ANTHROPIC_AUTH_TOKEN'][:10])"
+```
+
+
+---
+
+### 16. Limpeza de 11-out-2026: agentes e docs removidos, runtime em `$CLAUDE_CONFIG_DIR`, repos em `~/src` (11-out-2026)
+
+**Decisão:** (a) o operador apagou 11 subagentes (`arquiteto`, `clinical-data-auditor`, `code-explainer`,
+`deploy-sentinel`, `documentador`, `onboarder`, `otimizador`, `pubmed-evidence-checker`, `refatorador`, `segurador`,
+`testador`), docs/OPERATING-MANUAL.md, docs/REPOSITORY-INVENTORY.md, context/codex/ e context/memory/;
+(b) os documentos vivos passam a citar os caminhos reais: repo em `~/src/Claude-workspace`, scripts em `~/src/scripts`,
+cofre em `~/.local/secrets/.env`, runtime do Claude Code em `$CLAUDE_CONFIG_DIR` (`~/.config/claude`); (c) os números
+publicados ficam em `README.md` ("Números medidos") e `CLAUDE.md` §1, sem inventário separado.
+
+**Problema que resolveu:** `~/projetos/` deixou de existir e o runtime saiu de `~/.claude/`; documento, hook e script
+citavam caminho morto, e 11 agentes e 2 docs descreviam uma frota que o operador já tinha abandonado.
+
+**O que foi descartado e por quê:** descartado manter o REPOSITORY-INVENTORY.md — era segundo lugar para o mesmo
+número, e cópia num segundo lugar apodrece (decisão 1). Descartado reescrever `DECISIONS.md` e `agents/CHANGELOG.md`
+com os caminhos novos: são registro histórico e citam o que valia na data.
+
+**Como verificar que continua valendo:**
+```bash
+cd ~/src/Claude-workspace
+git ls-files | xargs grep -l '~/projetos' | grep -vE 'DECISIONS|CHANGELOG|auditoria-2026'   # vazio
+find skills-que-prestam -mindepth 3 -maxdepth 3 -name SKILL.md | wc -l                       # 41
+find agents -mindepth 1 -maxdepth 1 -type d | wc -l                                          # 8 (7 agentes + docs/)
 ```
 
 ---

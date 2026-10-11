@@ -9,7 +9,7 @@
 #   modo tudo         as 41 (caro: ~4.659 tokens por mensagem)
 #   modo nada         nenhuma (padrão, mais barato)
 set -euo pipefail
-MODO_FILE="${HOME}/.claude/modo"
+MODO_FILE="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/modo"
 
 if [ $# -eq 0 ]; then
   atual="nada"; [ -r "$MODO_FILE" ] && atual="$(tr -d '[:space:]' < "$MODO_FILE")"

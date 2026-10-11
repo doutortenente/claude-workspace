@@ -1,7 +1,7 @@
 # Catálogo de Skills — Claude
 
-> Gerado 05-sep-2026 · **leia isto antes de varrer `skills/` com Read/Glob.**
-> Regenerar: `python3 ~/projetos/scripts/indices/build_claude_index.py`
+> Gerado 11-oct-2026 · **leia isto antes de varrer `skills/` com Read/Glob.**
+> Regenerar: `python3 ~/src/scripts/indices/build_claude_index.py`
 
 ## Clínicas (UTI)
 
@@ -118,8 +118,8 @@
 ## Consulta rápida
 
 ```bash
-python3 ~/projetos/scripts/indices/query_claude_index.py skills
-python3 ~/projetos/scripts/indices/query_claude_index.py skill sasi-ingest-export
-python3 ~/projetos/scripts/indices/query_claude_index.py scripts
-python3 ~/projetos/scripts/indices/query_claude_index.py search zero alucinação
+python3 ~/src/scripts/indices/query_claude_index.py skills
+python3 ~/src/scripts/indices/query_claude_index.py skill sasi-ingest-export
+python3 ~/src/scripts/indices/query_claude_index.py scripts
+python3 ~/src/scripts/indices/query_claude_index.py search zero alucinação
 ```

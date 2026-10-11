@@ -46,8 +46,8 @@ O painel (porta 9119) **não** aceita a forma clássica `usuário:senha` na requ
 O caminho certo é `POST /auth/password-login`, com JSON, e o campo `provider` é obrigatório (sem ele: `422`). Bater em `/login` devolve `405`.
 
 ```bash
-U=$(grep -m1 '^HERMES_DASHBOARD_USER=' ~/projetos/.env | cut -d= -f2-)
-P=$(grep -m1 '^HERMES_DASHBOARD_PASSWORD=' ~/projetos/.env | cut -d= -f2-)
+U=$(grep -m1 '^HERMES_DASHBOARD_USER=' ~/.local/secrets/.env | cut -d= -f2-)
+P=$(grep -m1 '^HERMES_DASHBOARD_PASSWORD=' ~/.local/secrets/.env | cut -d= -f2-)
 C=$(mktemp)
 curl -s -c "$C" -X POST -H "Content-Type: application/json" \
   -d "{\"provider\":\"basic\",\"username\":\"$U\",\"password\":\"$P\"}" \

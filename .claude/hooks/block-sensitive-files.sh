@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # ---------------------------------------------------------------------------
-# block-sensitive-files.sh — gancho de bloqueio do repo ~/projetos/claude
+# block-sensitive-files.sh — gancho de bloqueio do repo ~/src/Claude-workspace
 #
 # GANCHO (hook) = programinha que o Claude Code executa sozinho ANTES de uma
 # ação, e que pode barrar essa ação. Este roda em PreToolUse (antes do uso da
 # ferramenta) e é o guarda de porta DAS FERRAMENTAS Write E Edit — só delas.
 # Escrita por outra via NÃO passa por aqui: `Bash(printf ... > .env)` grava o
 # segredo sem o gancho ser chamado, e o mesmo vale para NotebookEdit. Para
-# essas vias a trava é o .gitignore mais as 5 conferências de
-# .claude/rules/security-and-secrets.md.
+# essas vias a trava é o .gitignore mais as conferências de
+# CLAUDE.md §5 ("Antes de commitar").
 #
 # CONTRATO TÉCNICO
 #   Entrada : JSON pela entrada padrão (stdin), campo .tool_input.file_path
@@ -58,7 +58,7 @@ barra() {
 # 1. Cofre de segredo. O molde .env.example passa: só tem nome de variável.
 case "$nome" in
   .env.example) : ;;
-  .env|.env.*)  barra "arquivo .env guarda segredo. O cofre real é ~/projetos/.env (permissão 600), fora deste repo" ;;
+  .env|.env.*)  barra "arquivo .env guarda segredo. O cofre real é ~/.local/secrets/.env (permissão 600), fora deste repo" ;;
 esac
 
 # 2. Rascunho de sessão e log.

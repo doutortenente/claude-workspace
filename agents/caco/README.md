@@ -9,7 +9,7 @@ linhas relevantes. Não pensa, não conserta, não escreve nada.
 | Situação | Por que caco e não o vizinho |
 |---|---|
 | "Roda `saude_pc.py` e me diz o resultado" | caco é braço puro; **chefe** (opus) é quem cria/altera script — usar chefe aqui é gastar token caro pra tarefa mecânica |
-| Rodar `fix_ide_mcp.py`, reindexação, catálogo OneDrive já prontos | Script conhecido, sem decisão a tomar — perfil exato do caco |
+| Rodar reindexação, `saude_pc.py`, catálogo OneDrive já prontos | Script conhecido, sem decisão a tomar — perfil exato do caco |
 | Coletar reconhecimento pontual (ler log, grep em repo) sem rodar script | Isso é o **batedor** (haiku, leitura pura) — caco existe pra EXECUTAR script, não pra varrer arquivo |
 | Boletim de saúde do PC com checklist fixo | Isso é o **zelador** (haiku) — tem checklist próprio; caco roda o que a missão nomeia, sem checklist embutido |
 | Script falhou e precisa diagnóstico/conserto | Volta pro **chefe** — caco reporta o erro cru e para, não investiga causa |
@@ -30,7 +30,7 @@ Sem `Write`/`Edit` de propósito: caco não pode alterar nenhum arquivo — quem
 ## Dependências
 Nenhuma além das ferramentas nativas e do script que a missão nomear. O agente não referencia nenhum caminho fixo
 de script no próprio corpo — cada despacho precisa trazer o caminho completo (ex.: algo em
-`~/projetos/scripts/pc/saude_pc.py`).
+`~/src/scripts/pc/saude_pc.py`).
 
 ## Skills relacionadas
 Nenhuma identificada — o arquivo do agente não referencia skill.
@@ -40,7 +40,7 @@ Caminho completo do script, modo (dry-run por padrão; `--apply` só com aprova�
 na missão) e o que conta como sucesso na saída. Exemplo de despacho bom:
 
 ```
-Rode ~/projetos/scripts/pc/saude_pc.py (sem flags, modo default).
+Rode ~/src/scripts/pc/saude_pc.py (sem flags, modo default).
 Reporte exit code, RAM livre, disco livre e as últimas 10 linhas do boletim.
 Timeout: 60s.
 ```

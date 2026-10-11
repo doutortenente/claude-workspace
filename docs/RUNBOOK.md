@@ -3,7 +3,7 @@
 Receita de bolo para as 7 operações de rotina deste repo. Cada procedimento tem passos numerados, o comando exato e a
 linha **como saber que deu certo** — se essa linha não bater, o procedimento não terminou.
 
-Regra da casa: a doutrina (*o porquê*) mora em `../CLAUDE.md` e em `../.claude/rules/`. Aqui só tem o *como*.
+Regra da casa: a doutrina (*o porquê*) mora em `../CLAUDE.md`. Aqui só tem o *como*.
 
 | # | Procedimento | Quando |
 | --- | --- | --- |
@@ -11,7 +11,7 @@ Regra da casa: a doutrina (*o porquê*) mora em `../CLAUDE.md` e em `../.claude/
 | 2 | [Desligar uma skill que virou pedágio](#2-desligar-uma-skill-que-virou-pedágio) | skill nunca é acionada e custa contexto |
 | 3 | [Adicionar um subagente novo](#3-adicionar-um-subagente-novo) | tarefa braçal repetida sem dono na frota |
 | 4 | [Regerar o índice](#4-regerar-o-índice-depois-de-mudar-skill-ou-agente) | depois de mexer em skill ou agente |
-| 5 | [Entregar um trabalho: do branch ao merge](#5-entregar-um-trabalho-do-branch-ao-merge) | fim de qualquer trabalho |
+| 5 | [Entregar um trabalho: do commit ao push](#5-entregar-um-trabalho-do-commit-ao-push) | fim de qualquer trabalho |
 | 6 | [Auditar o repo](#6-auditar-o-repo) | antes de fechar reestruturação grande |
 | 7 | [Consertar atalho quebrado](#7-consertar-atalho-symlink-quebrado-em-claudeskills) | skill sumiu da lista |
 
@@ -28,7 +28,7 @@ O caminho curto: peça ao Claude *"adiciona essa skill"* e a skill `add-skill`
 1. **Escolher o pacote.** As skills ativas moram em `skills-que-prestam/<pacote>/<nome>/`. São 5 gavetas temáticas:
 
    ```bash
-   ls ~/projetos/claude/skills-que-prestam/
+   ls ~/src/Claude-workspace/skills-que-prestam/
    ```
 
    `00-pacote-ide-e-documentacao` · `01-pacote-skills-medicas` · `02-pacote-skills-workspace` ·
@@ -39,7 +39,7 @@ O caminho curto: peça ao Claude *"adiciona essa skill"* e a skill `add-skill`
    skill — escreva *quando* usar, com as palavras que o operador usaria de verdade.
 
    ```bash
-   mkdir -p ~/projetos/claude/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill>
+   mkdir -p ~/src/Claude-workspace/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill>
    ```
 
    ```markdown
@@ -54,24 +54,24 @@ O caminho curto: peça ao Claude *"adiciona essa skill"* e a skill `add-skill`
    ```
 
 3. **Ligar o atalho.** Um **symlink** é um atalho de arquivo — uma placa que diz "o conteúdo real está lá". O Claude só
-   lê skills de `~/.claude/skills/`, então a pasta do repo precisa de uma placa lá dentro. Use caminho absoluto:
+   lê skills de `$CLAUDE_CONFIG_DIR/skills/`, então a pasta do repo precisa de uma placa lá dentro. Use caminho absoluto:
 
    ```bash
-   ln -s ~/projetos/claude/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill> \
-         ~/.claude/skills/<nome-da-skill>
+   ln -s ~/src/Claude-workspace/skills-que-prestam/01-pacote-skills-medicas/<nome-da-skill> \
+         $CLAUDE_CONFIG_DIR/skills/<nome-da-skill>
    ```
 
 4. **Provar que carregou.** Abra uma sessão nova do Claude Code e rode `/skills` — a skill tem que aparecer na lista
    pelo nome.
 
-5. **Regerar o índice** (procedimento 4) e **fechar por branch e PR** (procedimento 5).
+5. **Regerar o índice** (procedimento 4) e **commitar e dar push** (procedimento 5).
 
-**Como saber que deu certo:** `ls -l ~/.claude/skills/<nome-da-skill>` mostra a seta apontando para a pasta no repo,
+**Como saber que deu certo:** `ls -l $CLAUDE_CONFIG_DIR/skills/<nome-da-skill>` mostra a seta apontando para a pasta no repo,
 `/skills` lista a skill numa sessão nova, e a contagem de atalhos bate com a de skills:
 
 ```bash
-ls ~/.claude/skills | wc -l
-find ~/projetos/claude/skills-que-prestam -mindepth 3 -maxdepth 3 -name SKILL.md | wc -l
+ls $CLAUDE_CONFIG_DIR/skills | wc -l
+find ~/src/Claude-workspace/skills-que-prestam -mindepth 3 -maxdepth 3 -name SKILL.md | wc -l
 ```
 
 Os dois números têm que ser iguais.
@@ -87,30 +87,30 @@ religar é um comando.
 1. **Conferir para onde o atalho aponta antes de apagar** (nunca apague às cegas):
 
    ```bash
-   ls -l ~/.claude/skills/<nome-da-skill>
+   ls -l $CLAUDE_CONFIG_DIR/skills/<nome-da-skill>
    ```
 
-   A saída tem que mostrar `-> /home/dr/projetos/claude/skills-que-prestam/...`. Se mostrar outra coisa, pare.
+   A saída tem que mostrar `-> /home/dr/src/Claude-workspace/skills-que-prestam/...`. Se mostrar outra coisa, pare.
 
 2. **Remover só o atalho.** Sem barra no final — barra faz o `rm` mirar no conteúdo, não na placa:
 
    ```bash
-   rm ~/.claude/skills/<nome-da-skill>
+   rm $CLAUDE_CONFIG_DIR/skills/<nome-da-skill>
    ```
 
 3. **Confirmar que a pasta original sobreviveu:**
 
    ```bash
-   ls ~/projetos/claude/skills-que-prestam/<pacote>/<nome-da-skill>/SKILL.md
+   ls ~/src/Claude-workspace/skills-que-prestam/<pacote>/<nome-da-skill>/SKILL.md
    ```
 
-4. **Regerar o índice** (procedimento 4) e atualizar a contagem de skills ativas em `REPOSITORY-INVENTORY.md`.
+4. **Regerar o índice** (procedimento 4) e atualizar a contagem de skills no `README.md` e no `CLAUDE.md` §1.
 
-5. Fechar por branch e PR (procedimento 5).
+5. Commitar e dar push (procedimento 5).
 
 Para religar depois, é o passo 3 do procedimento 1 de novo.
 
-**Como saber que deu certo:** `ls ~/.claude/skills | wc -l` caiu em 1, o `SKILL.md` do passo 3 ainda existe, e a skill
+**Como saber que deu certo:** `ls $CLAUDE_CONFIG_DIR/skills | wc -l` caiu em 1, o `SKILL.md` do passo 3 ainda existe, e a skill
 sumiu de `/skills` numa sessão nova.
 
 ---
@@ -124,7 +124,7 @@ trabalho, criar outro é bola de neve, não ganho.
 1. **Conferir se já existe dono para a tarefa:**
 
    ```bash
-   python3 ~/projetos/scripts/indices/query_claude_index.py agents
+   python3 ~/src/scripts/indices/query_claude_index.py agents
    ```
 
 2. **Ler o molde e as convenções** antes de escrever:
@@ -137,7 +137,7 @@ trabalho, criar outro é bola de neve, não ganho.
 3. **Criar a pasta e os dois arquivos.** O padrão da casa é `agents/<nome>/<nome>.md` + `agents/<nome>/README.md`:
 
    ```bash
-   mkdir -p ~/projetos/claude/agents/<nome>
+   mkdir -p ~/src/Claude-workspace/agents/<nome>
    ```
 
    O `<nome>.md` começa com frontmatter neste formato (exemplo real, `agents/fiscal/fiscal.md`):
@@ -155,21 +155,21 @@ trabalho, criar outro é bola de neve, não ganho.
 
    `disallowedTools: Agent` é obrigatório: subagente não lança subagente — a hierarquia tem 2 níveis, não mais.
 
-4. **Rodar o validador da frota.** Ele confere frontmatter, nomes e convenções de todos os agentes:
+4. **Conferir o cabeçalho na mão** (o validador `validar_frota.py` não existe mais): `name` e `description`
+   presentes, `model` e `tools` coerentes com `agents/docs/convencoes.md`, e nenhum `README.md` de pasta com
+   cabeçalho YAML.
 
    ```bash
-   python3 ~/projetos/scripts/claude/validar_frota.py --strict
+   head -8 agents/<nome>/<nome>.md
+   head -3 agents/<nome>/README.md       # não pode começar com ---
    ```
 
-   `--strict` faz o script terminar com **exit code** 1 (código de saída = o "sinal vital" que um programa devolve ao
-   terminar: 0 é sucesso, qualquer outro é falha) se achar erro.
-
-5. **Regerar o índice** (procedimento 4). O atalho `~/.claude/agents` já aponta para `agents/` inteira — agente novo
+5. **Regerar o índice** (procedimento 4). O atalho `$CLAUDE_CONFIG_DIR/agents` já aponta para `agents/` inteira — agente novo
    não precisa de atalho próprio.
 
-6. Fechar por branch e PR (procedimento 5), e atualizar a contagem de subagentes em `REPOSITORY-INVENTORY.md`.
+6. Commitar e dar push (procedimento 5), e atualizar a contagem de subagentes no `README.md` e no `CLAUDE.md` §1.
 
-**Como saber que deu certo:** `validar_frota.py --strict` termina em exit code 0 (`echo $?` mostra `0`), o agente
+**Como saber que deu certo:** o cabeçalho confere com `agents/docs/convencoes.md`, o agente
 aparece em `query_claude_index.py agents`, e numa sessão nova o Claude consegue chamá-lo pelo nome.
 
 ---
@@ -186,20 +186,20 @@ agente ou documento.
 1. **Regerar:**
 
    ```bash
-   python3 ~/projetos/scripts/indices/build_claude_index.py
+   python3 ~/src/scripts/indices/build_claude_index.py
    ```
 
 2. **Conferir que o catálogo ficou mais novo que o que você mexeu:**
 
    ```bash
-   ls -l --time-style=+%d-%m\ %H:%M ~/projetos/claude/memory/
+   ls -l --time-style=+%d-%m\ %H:%M ~/src/Claude-workspace/memory/
    ```
 
 3. **Consultar para provar que a mudança entrou:**
 
    ```bash
-   python3 ~/projetos/scripts/indices/query_claude_index.py skill <nome-da-skill>
-   python3 ~/projetos/scripts/indices/query_claude_index.py agents
+   python3 ~/src/scripts/indices/query_claude_index.py skill <nome-da-skill>
+   python3 ~/src/scripts/indices/query_claude_index.py agents
    ```
 
 O `claude_index.db` **não** vai para o git (é gerado, não escrito). Já `MAPA-CLAUDE.md` e `SKILLS-CATALOGO.md` são
@@ -210,31 +210,34 @@ consulta do passo 3 devolve a skill ou o agente que você acabou de mexer.
 
 ---
 
-## 5. Entregar um trabalho: do branch ao merge
+## 5. Entregar um trabalho: do commit ao push
 
-A doutrina completa — nome de branch, formato da mensagem de commit, o que nunca entra num commit e como desfazer cada
-tipo de erro — está em **`../.claude/rules/git-workflow.md`**. Não repito aqui. Leia lá antes da primeira vez.
+Regras do repo (mensagem de commit, o que nunca entra num commit): `CLAUDE.md` §5 e §6. Commit direto em `main` é
+permitido; branch e PR são opcionais — use quando quiser revisar antes de juntar.
 
-O que interessa neste runbook é a ordem de execução, e a única regra que não pode ser esquecida: **commit direto na
-`main` é proibido**; o merge, esse sim, não pede confirmação (ordem permanente de 28-jul-2026).
-
-1. **Antes de abrir o branch**, rode a conferência adversarial: peça ao Claude *"confere"* e a skill
+1. **Antes de commitar**, rode a conferência adversarial: peça ao Claude *"confere"* e a skill
    `verify-before-finish` (`../.claude/skills/verify-before-finish/SKILL.md`) tenta derrubar cada afirmação da
-   entrega. Entrega que não passou por ela não vai para PR.
+   entrega.
 
-2. **Executar a sequência de 7 passos** de `../.claude/rules/git-workflow.md` §"Sequência de uma entrega completa" —
-   `git switch -c` → `git add` seletivo → `git status` → `git commit` → `git push -u` → `gh pr create --fill` →
-   `gh pr merge --squash --delete-branch` → `git switch main && git pull`.
+2. **Executar a sequência:**
+
+   ```bash
+   cd ~/src/Claude-workspace
+   git status --short                     # só o que você espera
+   git add <arquivos>                     # seletivo, nunca `git add -A` às cegas
+   git diff --cached | grep -inE "sk-|api[_-]?key|secret|Bearer "   # só nome de variável, nunca valor
+   git commit -m "tipo(escopo): o que mudou"
+   git push
+   ```
 
 3. **Confirmar que a `main` local ficou limpa e igual à remota:**
 
    ```bash
-   cd ~/projetos/claude && git status --short && git log --oneline -3
+   git status --short && git log --oneline -3
    ```
 
-**Como saber que deu certo:** `git status --short` não imprime nada (nenhuma alteração solta), `git branch` mostra você
-em `main`, o commit da entrega aparece no `git log --oneline -3`, e o branch de trabalho sumiu — foi apagado pelo
-`--delete-branch`.
+**Como saber que deu certo:** `git status --short` não imprime nada (nenhuma alteração solta), o commit da entrega
+aparece no `git log --oneline -3`, e `git status -sb` mostra a `main` sem `ahead`/`behind`.
 
 ---
 
@@ -254,7 +257,7 @@ atalho de skill quebrado, índice velho e número publicado que deixou de bater.
    | Symlinks × skills | há skill sem atalho, ou atalho sem skill |
    | Symlinks quebrados | atalho apontando para o vazio — a skill sumiu da sessão (ver procedimento 7) |
    | Índice | o catálogo é mais velho que os arquivos — toda consulta está mentindo (ver procedimento 4) |
-   | Números do inventário | `REPOSITORY-INVENTORY.md` publica contagem que não bate mais com o disco |
+   | Números do inventário | `README.md` ou `CLAUDE.md` §1 publicam contagem que não bate mais com o disco |
 
    Item que a skill não conseguiu verificar sai como `[SEM_FONTE]` — nunca como "OK". Cada FALHA vem com o caminho
    exato do arquivo culpado.
@@ -262,14 +265,14 @@ atalho de skill quebrado, índice velho e número publicado que deixou de bater.
 3. **Corrigir na ordem do relatório**, de cima para baixo. Caminho quebrado em documento é o mais grave: manda pessoa e
    agente para o lugar errado.
 
-4. **Rodar de novo** e só então fechar por branch e PR (procedimento 5).
+4. **Rodar de novo** e só então commitar e dar push (procedimento 5).
 
 **Como saber que deu certo:** as 5 linhas do relatório saem `OK`, sem nenhum `[SEM_FONTE]`, numa execução feita
 *depois* das correções.
 
 ---
 
-## 7. Consertar atalho (symlink) quebrado em `~/.claude/skills/`
+## 7. Consertar atalho (symlink) quebrado em `$CLAUDE_CONFIG_DIR/skills/`
 
 Atalho quebrado é a placa apontando para uma sala que foi demolida: a pasta da skill foi movida, renomeada ou apagada, e
 o atalho ficou. O Claude simplesmente não enxerga mais a skill — sem erro, sem aviso.
@@ -277,7 +280,7 @@ o atalho ficou. O Claude simplesmente não enxerga mais a skill — sem erro, se
 1. **Detectar.** `-xtype l` lista atalhos cujo destino não existe:
 
    ```bash
-   find ~/.claude/skills -maxdepth 1 -xtype l
+   find $CLAUDE_CONFIG_DIR/skills -maxdepth 1 -xtype l
    ```
 
    Saída vazia = nenhum quebrado. Hoje o número correto é **0**.
@@ -285,20 +288,20 @@ o atalho ficou. O Claude simplesmente não enxerga mais a skill — sem erro, se
 2. **Ver para onde o atalho quebrado aponta** — o destino errado diz o que aconteceu (pasta renomeada? pacote trocado?):
 
    ```bash
-   ls -l ~/.claude/skills/<nome-quebrado>
+   ls -l $CLAUDE_CONFIG_DIR/skills/<nome-quebrado>
    ```
 
 3. **Achar onde a pasta foi parar de verdade:**
 
    ```bash
-   find ~/projetos/claude/skills-que-prestam -maxdepth 2 -type d -name '<nome-quebrado>'
+   find ~/src/Claude-workspace/skills-que-prestam -maxdepth 2 -type d -name '<nome-quebrado>'
    ```
 
 4. **Refazer o atalho** — apagar a placa velha e pregar a nova, sempre com caminho absoluto:
 
    ```bash
-   rm ~/.claude/skills/<nome-quebrado>
-   ln -s <caminho-real-do-passo-3> ~/.claude/skills/<nome-quebrado>
+   rm $CLAUDE_CONFIG_DIR/skills/<nome-quebrado>
+   ln -s <caminho-real-do-passo-3> $CLAUDE_CONFIG_DIR/skills/<nome-quebrado>
    ```
 
    Se o passo 3 não achou nada, a skill não existe mais: então o certo é só o `rm` — o atalho é lixo.
@@ -306,8 +309,8 @@ o atalho ficou. O Claude simplesmente não enxerga mais a skill — sem erro, se
 5. **Reconferir os dois números:**
 
    ```bash
-   find ~/.claude/skills -maxdepth 1 -xtype l | wc -l   # tem que dar 0
-   ls ~/.claude/skills | wc -l                          # tem que bater com a contagem de SKILL.md
+   find $CLAUDE_CONFIG_DIR/skills -maxdepth 1 -xtype l | wc -l   # tem que dar 0
+   ls $CLAUDE_CONFIG_DIR/skills | wc -l                          # tem que bater com a contagem de SKILL.md
    ```
 
 **Como saber que deu certo:** o `find` do passo 5 devolve `0`, a contagem de atalhos bate com a de `SKILL.md` das

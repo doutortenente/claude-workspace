@@ -1,8 +1,8 @@
 # MAPA — repo Claude
 
-> Gerado 05-sep-2026 por `~/projetos/scripts/indices/build_claude_index.py`
+> Gerado 11-oct-2026 por `~/src/scripts/indices/build_claude_index.py`
 
-**Total:** 1072 arquivos · 20.5 MB · 134,316 linhas · 651,467 tokens indexados · **68 skills**
+**Total:** 1047 arquivos · 20.4 MB · 134,679 linhas · 638,024 tokens indexados · **69 skills**
 
 ## Por categoria
 
@@ -12,15 +12,15 @@
 | `script` | 185 | 114,064 | Scripts que são o corpo de uma skill |
 | `skill_workspace` | 55 | 51,876 | Pacote 02 — workspace (docx, pdf, xlsx…) |
 | `skill_clinical` | 36 | 41,597 | Pacote 01 — skills médicas (UTI) |
-| `agent` | 45 | 26,729 | Subagentes — `agents/<nome>/` |
 | `skill_backend` | 69 | 25,675 | Pacote 04 — Supabase e Vercel |
-| `other` | 19 | 14,429 | Revisar |
-| `docs` | 4 | 9,347 | `docs/` — manual, inventário, decisões, runbook |
-| `skill_ide` | 8 | 8,716 | Pacote 00 — IDE e documentação |
-| `governance` | 11 | 6,881 | `.claude/` — rules, skills, agents, hooks, settings |
-| `memory` | 2 | 1,738 | `memory/` — este índice |
-| `root` | 5 | 1,508 | CLAUDE.md, README, .gitignore, .env.example |
-| `extracao` | 1 | 762 | `EXTRACAO-CLINICA-SASI/` — briefing + atalhos |
+| `agent` | 23 | 13,330 | Subagentes — `agents/<nome>/` |
+| `skill_ide` | 10 | 12,861 | Pacote 00 — IDE e documentação |
+| `other` | 15 | 10,806 | Revisar |
+| `extracao` | 4 | 5,571 | `EXTRACAO-CLINICA-SASI/` — briefing + atalhos |
+| `docs` | 2 | 5,478 | `docs/` — decisões e runbook |
+| `governance` | 10 | 5,380 | `.claude/` — skills, agents, hooks, settings |
+| `memory` | 2 | 1,736 | `memory/` — este índice |
+| `root` | 4 | 1,505 | CLAUDE.md, README, .gitignore, .env.example |
 | `vendor_blob` | 304 | 0 | Binários/pesados (só path, sem FTS) |
 
 ## Maiores arquivos (exceto vendor_blob)
@@ -28,6 +28,7 @@
 - `skills-que-prestam/03-pacote-skills-claude-nativas/skill-creator/SKILL.md` — 10,154 tok (`skill_dev`)
 - `skills-que-prestam/03-pacote-skills-claude-nativas/skill-creator/workflows/wrapper-skill/patterns.md` — 6,462 tok (`skill_dev`)
 - `skills-que-prestam/03-pacote-skills-claude-nativas/ai-agent-workspace/reference/actors/workflows.md` — 6,322 tok (`skill_dev`)
+- `extracao-plantao/extracao-controles-labs-prescricao.html` — 6,255 tok (`other`)
 - `skills-que-prestam/03-pacote-skills-claude-nativas/writing-skills/anthropic-best-practices.md` — 5,764 tok (`skill_dev`)
 - `skills-que-prestam/03-pacote-skills-claude-nativas/_anthropic/examples/skill-creator/SKILL.md` — 5,205 tok (`skill_dev`)
 - `skills-que-prestam/03-pacote-skills-claude-nativas/ai-agent-workspace/BASE_SKILL.md` — 4,821 tok (`skill_dev`)
@@ -36,7 +37,6 @@
 - `skills-que-prestam/03-pacote-skills-claude-nativas/humanizer/SKILL.md` — 4,516 tok (`skill_dev`)
 - `skills-que-prestam/02-pacote-skills-workspace/book-to-skill/SKILL.md` — 4,299 tok (`skill_workspace`)
 - `skills-que-prestam/00-pacote-ide-e-documentacao/ide-index-mcp/references/tools-reference.md` — 4,295 tok (`skill_ide`)
-- `skills-que-prestam/03-pacote-skills-claude-nativas/_anthropic/examples/setup-writing-style/SKILL.md` — 4,289 tok (`skill_dev`)
 
 ## Navegação rápida (obrigatório para agentes)
 
@@ -48,7 +48,7 @@
 Não usar `Glob **/skills/**` nem ler `_design/`/`_anthropic/` sem necessidade.
 
 ```bash
-python3 ~/projetos/scripts/indices/query_claude_index.py skills --clinical
-python3 ~/projetos/scripts/indices/query_claude_index.py find engine.py
-python3 ~/projetos/scripts/indices/query_claude_index.py agents
+python3 ~/src/scripts/indices/query_claude_index.py skills --clinical
+python3 ~/src/scripts/indices/query_claude_index.py find engine.py
+python3 ~/src/scripts/indices/query_claude_index.py agents
 ```

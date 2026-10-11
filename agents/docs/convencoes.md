@@ -1,6 +1,6 @@
 # Convenções da frota — como se escreve um agente aqui
 
-Régua para criar ou alterar qualquer agente. Quem não segue, quebra no `validar_frota.py`.
+Régua para criar ou alterar qualquer agente. Quem não segue, vira agente fantasma ou fica fora da frota.
 
 ## Uma pasta por agente
 
@@ -113,8 +113,8 @@ Regra sem motivo é regra que o modelo racionaliza sob pressão. Feche a saída 
 | Modelo | Para quê | Agentes |
 |---|---|---|
 | `haiku` | mecânico, leitura pura, sem julgamento | batedor, caco, zelador |
-| `sonnet` | implementação e verificação com escopo dado | residente, fiscal, testador, refatorador, documentador, onboarder, deploy-sentinel, code-explainer, secretaria, pubmed-evidence-checker |
-| `opus` | decide arquitetura, julga risco, audita dado clínico | chefe, arquiteto, segurador, otimizador, clinical-data-auditor |
+| `sonnet` | implementação e verificação com escopo dado | residente, fiscal, secretaria, auditor-do-repo |
+| `opus` | decide arquitetura, julga risco, audita dado clínico | chefe |
 
 Regra: **o modelo mais barato que dá conta.** Se o agente só coleta e formata, é haiku. Se ele decide, é opus.
 

@@ -9,8 +9,8 @@ Reconhecimento barato: lê repo, pasta, doc grande, log ou saída de comando e d
 | Situação | Por que este agente e não o vizinho |
 |---|---|
 | "Onde mora a função X no repo?" ou "o que esse log acusa?" | Reconhecimento pontual e barato (**haiku** = modelo mais leve, mais rápido e mais barato da frota) — não precisa de `caco` (roda script) nem `zelador` (checklist fixo de saúde) |
-| Mapear estrutura de um repo inteiro antes de decidir arquitetura | `batedor` traz o fato bruto; se o pedido for o mapa completo e navegável do repo, é `onboarder` (sonnet), não `batedor` |
-| Conferir se um `git` está à frente/atrás do remoto, contar arquivo numa pasta | Tarefa de leitura direta — `residente` e `refatorador` são pra mexer em código, não pra reconhecimento |
+| Mapear estrutura de um repo inteiro antes de decidir arquitetura | `batedor` traz o fato bruto; mapa completo e navegável do repo é trabalho de sessão principal (ou de um agente de sonnet dedicado), não de `batedor` |
+| Conferir se um `git` está à frente/atrás do remoto, contar arquivo numa pasta | Tarefa de leitura direta — `residente` é pra mexer em código, não pra reconhecimento |
 | Varrer doc grande (ex.: `BRIEFING.md`) antes de uma decisão clínica ou técnica | Evita o gerente (agente principal) gastar contexto lendo o doc inteiro — `batedor` devolve só o resumo |
 
 ## Ferramentas e por quê
@@ -29,7 +29,7 @@ agente reforçam isso na regra, não só na lista de ferramentas: proíbem `sudo
 crie/sobrescreva arquivo e instalação de pacote — mesmo que tecnicamente passassem pelo `Bash` liberado.
 
 ## Dependências
-Nenhuma além das ferramentas nativas (não há script de `~/projetos/scripts/`, servidor MCP nem arquivo de
+Nenhuma além das ferramentas nativas (não há script de `~/src/scripts/`, servidor MCP nem arquivo de
 configuração citado no corpo do agente).
 
 ## Skills relacionadas
@@ -43,7 +43,7 @@ Exemplo de despacho bom:
 ```
 Missão: confirmar se o branch feature/x está à frente/atrás de origin/main e listar
 o que mudou em frontend/src/lib/.
-Escopo: repo ~/projetos/sasi, pasta frontend/src/lib/ apenas.
+Escopo: repo ~/src/sasi, pasta frontend/src/lib/ apenas.
 Critério de aceite: os 2 números de git rev-list (esquerda/direita) + lista de
 arquivo:linha alterado.
 ```

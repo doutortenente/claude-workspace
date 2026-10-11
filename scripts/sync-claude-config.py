@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 """
-sync-claude-config.py — Sincroniza o repo Claude → runtime (~/.claude/)
+sync-claude-config.py — Sincroniza o repo Claude → runtime ($CLAUDE_CONFIG_DIR, padrão ~/.claude)
 
 Este script é a fonte de verdade para a direção repo → disco. Ele:
 
-  1. Copia context/global-claude-persona.md  → ~/.claude/CLAUDE.md
-  2. Copia context/memory/*.md                → ~/.claude/memory/
-  3. Gera ~/.claude/settings.json a partir de context/claude/settings.example.json
-     injetando secrets do ambiente (ANTHROPIC_AUTH_TOKEN via ~/projetos/.env)
-  4. Garante symlinks de skills em ~/.claude/skills/ apontando para o repo
-  5. Verifica hooks referenciados em settings.json existem no disco
+  1. Copia context/global-claude-persona.md  → $CLAUDE_CONFIG_DIR/CLAUDE.md
+  2. Gera $CLAUDE_CONFIG_DIR/settings.json a partir de context/claude/settings.example.json
+     injetando secrets do ambiente (ANTHROPIC_AUTH_TOKEN via ~/.local/secrets/.env)
+  3. Garante symlinks de skills em $CLAUDE_CONFIG_DIR/skills/ apontando para o repo
+  4. Verifica hooks referenciados em settings.json existem no disco
+
+ATENÇÃO: o passo 2 SOBRESCREVE o settings.json do runtime com o template.
 
 Modo dry-run (padrão): mostra o que faria sem executar.
 Com --apply: executa as mudanças.
 
 Uso:
-  python3 ~/projetos/claude/scripts/sync-claude-config.py            # dry-run
-  python3 ~/projetos/claude/scripts/sync-claude-config.py --apply    # aplicar
+  python3 ~/src/Claude-workspace/scripts/sync-claude-config.py            # dry-run
+  python3 ~/src/Claude-workspace/scripts/sync-claude-config.py --apply    # aplicar
 """
 
 import json
@@ -27,16 +28,14 @@ from pathlib import Path
 
 # ── Configurações ──────────────────────────────────────────────────────────
 
-REPO = Path.home() / "projetos" / "claude"
-CLAUDE_HOME = Path.home() / ".claude"
-ENV_FILE = Path.home() / "projetos" / ".env"
+REPO = Path(__file__).resolve().parent.parent
+CLAUDE_HOME = Path(os.environ.get("CLAUDE_CONFIG_DIR") or Path.home() / ".claude")
+ENV_FILE = Path.home() / ".local" / "secrets" / ".env"
 
 CONTEXT_DIR = REPO / "context"
-MEMORY_SRC = CONTEXT_DIR / "memory"
 CLAUDE_PERSONA_SRC = CONTEXT_DIR / "global-claude-persona.md"
 SETTINGS_TEMPLATE = CONTEXT_DIR / "claude" / "settings.example.json"
 
-CLAUDE_MEMORY_DST = CLAUDE_HOME / "memory"
 CLAUDE_SETTINGS_DST = CLAUDE_HOME / "settings.json"
 CLAUDE_SKILLS_DIR = CLAUDE_HOME / "skills"
 
@@ -72,7 +71,7 @@ def dry_run(label: str, action: str):
 # ── Sync functions ──────────────────────────────────────────────────────────
 
 def sync_claude_md(apply: bool):
-    """1. Sincroniza ~/.claude/CLAUDE.md ← context/global-claude-persona.md"""
+    """1. Sincroniza $CLAUDE_CONFIG_DIR/CLAUDE.md ← context/global-claude-persona.md"""
     print("\n=== 1. CLAUDE.md (persona global) ===")
     dst = CLAUDE_HOME / "CLAUDE.md"
     if CLAUDE_PERSONA_SRC.exists():
@@ -84,22 +83,10 @@ def sync_claude_md(apply: bool):
     else:
         warn(f"Fonte não existe: {CLAUDE_PERSONA_SRC}")
 
-def sync_memory(apply: bool):
-    """2. Sincroniza ~/.claude/memory/*.md ← context/memory/*.md"""
-    print("\n=== 2. Memory files ===")
-    if apply:
-        CLAUDE_MEMORY_DST.mkdir(parents=True, exist_ok=True)
-    for src in sorted(MEMORY_SRC.glob("*.md")):
-        dst = CLAUDE_MEMORY_DST / src.name
-        if apply:
-            shutil.copy2(src, dst)
-            info(f"{src.name} → {dst}")
-        else:
-            dry_run(str(src), f"copiar para {dst}")
 
 def sync_settings(apply: bool):
-    """3. Gera ~/.claude/settings.json a partir do template + secrets do ambiente"""
-    print("\n=== 3. settings.json ===")
+    """2. Gera settings.json a partir do template + secrets do ambiente"""
+    print("\n=== 2. settings.json ===")
     if not SETTINGS_TEMPLATE.exists():
         warn(f"Template não existe: {SETTINGS_TEMPLATE}")
         return
@@ -151,8 +138,8 @@ def sync_settings(apply: bool):
             warn("ANTHROPIC_AUTH_TOKEN NÃO encontrado no .env")
 
 def sync_skills(apply: bool):
-    """4. Garante symlinks de skills em ~/.claude/skills/ → repo"""
-    print("\n=== 4. Skill symlinks ===")
+    """3. Garante symlinks de skills em $CLAUDE_CONFIG_DIR/skills/ → repo"""
+    print("\n=== 3. Skill symlinks ===")
 
     # Build skill map: name → repo relative path
     skill_map = {}
@@ -236,8 +223,8 @@ def sync_skills(apply: bool):
         print("✓ Todos os symlinks estão corretos")
 
 def check_hooks():
-    """5. Verifica hooks referenciados em settings.json existem"""
-    print("\n=== 5. Hooks check ===")
+    """4. Verifica hooks referenciados em settings.json existem"""
+    print("\n=== 4. Hooks check ===")
     settings = json.loads(CLAUDE_SETTINGS_DST.read_text()) if CLAUDE_SETTINGS_DST.exists() else {}
     hooks = settings.get("hooks", {})
     hook_paths = set()
@@ -284,11 +271,10 @@ def main():
         # Load secrets check
         env = load_env_file(ENV_FILE)
         if not env.get("ANTHROPIC_AUTH_TOKEN"):
-            warn("ANTHROPIC_AUTH_TOKEN não encontrado em ~/projetos/.env")
+            warn("ANTHROPIC_AUTH_TOKEN não encontrado em ~/.local/secrets/.env")
             warn("settings.json será gerado com placeholder — Claude Code CLI não funcionará sem token.")
 
     sync_claude_md(apply)
-    sync_memory(apply)
     sync_settings(apply)
     sync_skills(apply)
     check_hooks()

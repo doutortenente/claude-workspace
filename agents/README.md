@@ -1,10 +1,12 @@
 # Frota de subagentes — fonte única
 
-`~/.claude/agents` é symlink pra cá. Editar um agente = editar e commitar **neste repo**, nunca no symlink.
+Editar um agente = editar e commitar **neste repo**. Para o Claude Code enxergá-lo, o arquivo `<nome>.md` precisa estar
+em `$CLAUDE_CONFIG_DIR/agents/` (hoje `~/.config/claude/agents/`, que **não existe** — medido 11-out-2026) ou em
+`.claude/agents/` do projeto aberto.
 
-**18 agentes.** Subagente é um assistente com contexto próprio e instruções próprias: o gerente (a sessão
-principal) despacha uma missão, o subagente executa isolado e devolve um relatório. Serve pra economizar
-contexto e pra especializar comportamento.
+**8 agentes:** 7 aqui em `agents/` e o `auditor-do-repo` em `.claude/agents/`. Subagente é um assistente com contexto
+próprio e instruções próprias: o gerente (a sessão principal) despacha uma missão, o subagente executa isolado e
+devolve um relatório. Serve pra economizar contexto e pra especializar comportamento.
 
 ## Estrutura
 
@@ -14,16 +16,13 @@ Cada agente mora na própria pasta, com a documentação ao lado:
 agents/
 ├── README.md              este índice
 ├── CONTRIBUTING.md        como criar e alterar agente
-├── CHANGELOG.md           o que mudou, quando e por quê
+├── CHANGELOG.md           o que mudou, quando e por quê (histórico — cita agentes já removidos)
 ├── docs/                  contrato de relatório, convenções, roteamento, template,
 │                          arsenal de scripts, auditoria
-├── arquiteto/
-│   ├── arquiteto.md       o agente (o que o Claude Code lê)
-│   └── README.md          dependências, ferramentas, contexto, armadilhas
 ├── batedor/
-│   ├── batedor.md
-│   └── README.md
-└── … (18 pastas)
+│   ├── batedor.md         o agente (o que o Claude Code lê)
+│   └── README.md          dependências, ferramentas, contexto, armadilhas
+├── caco/ · chefe/ · fiscal/ · residente/ · secretaria/ · zelador/
 ```
 
 A varredura de `agents/` é **recursiva**: qualquer `.md` com `name` e `description` no cabeçalho vira agente,
@@ -42,63 +41,28 @@ neutralizado em [docs/template-de-agente.md](docs/template-de-agente.md).
 | Saber o que todo agente devolve | [docs/contrato-de-relatorio.md](docs/contrato-de-relatorio.md) |
 | Achar o script de infra certo | [docs/arsenal-de-scripts.md](docs/arsenal-de-scripts.md) |
 | Ver o que mudou e quando | [CHANGELOG.md](CHANGELOG.md) |
-| Conferir se está tudo conforme | `python3 ~/projetos/scripts/claude/validar_frota.py` |
 
 ## A frota
-
-### Reconhecimento e execução mecânica
 
 | agente | model | modo | quando chamar |
 |---|---|---|---|
 | `batedor` | haiku | leitura | Mapear terreno antes de decidir: estrutura de repo, onde mora uma função, o que um log acusa |
 | `caco` | haiku | leitura | Rodar script que já existe e devolver a saída fiel |
 | `zelador` | haiku | leitura | Boletim de saúde do workspace com checklist fixo: repo sujo, disco, Downloads velho |
-
-### Planejamento e engenharia
-
-| agente | model | modo | quando chamar |
-|---|---|---|---|
-| `arquiteto` | opus | leitura | Missão grande demais pra um agente só — decide quem chamar, em que ordem, com qual modelo |
-| `chefe` | opus | escrita | Criar ou alterar script de infra em `~/projetos/scripts` |
+| `chefe` | opus | escrita | Criar ou alterar script de infra em `~/src/scripts` |
 | `residente` | sonnet | escrita | Implementar código de produto já prescrito — edita, roda typecheck/teste, reporta |
-| `refatorador` | sonnet | escrita | Melhorar estrutura sem mudar comportamento; exige teste verde antes de entrar |
-| `otimizador` | opus | escrita | Algo está lento — mede baseline, ataca o gargalo, mede de novo |
-
-### Verificação
-
-| agente | model | modo | quando chamar |
-|---|---|---|---|
 | `fiscal` | sonnet | leitura | Refutar entrega pronta de outro agente antes de aceitar |
-| `testador` | sonnet | escrita | Escrever teste para código que ele NÃO escreveu — ataca o que o autor não imaginou |
-| `segurador` | opus | leitura | Auditar segurança: segredo vazando, chave de servidor no navegador, injeção, PHI em log |
-| `deploy-sentinel` | sonnet | leitura | Portão final antes de mergear na main: build, typecheck, lint, teste, RLS |
-
-### Documentação e conhecimento
-
-| agente | model | modo | quando chamar |
-|---|---|---|---|
-| `code-explainer` | sonnet | leitura | Explicar UM arquivo ou UM diff em linguagem simples |
-| `onboarder` | sonnet | leitura | Mapear um repositório inteiro pra quem chega nele (inclusive você, semanas depois) |
-| `documentador` | sonnet | escrita | Atualizar README/CLAUDE.md/changelog depois de mudança commitada |
-| `secretaria` | sonnet | escrita | Memória do operador em `~/.claude/memory` — o que foi feito, o que está pendente |
-
-### Clínico
-
-| agente | model | modo | quando chamar |
-|---|---|---|---|
-| `clinical-data-auditor` | opus | leitura | Achar campo clínico sem fonte rastreável antes do dado ir pro dashboard |
-| `pubmed-evidence-checker` | sonnet | leitura | Validar afirmação clínica com PMID via MCP PubMed |
+| `secretaria` | sonnet | escrita | Memória do operador — o que foi feito, o que está pendente (**aviso:** o arquivo-alvo `comando.md` não existe mais no repo nem no runtime) |
+| `auditor-do-repo` | sonnet | leitura | Conferir se o que está escrito bate com o que está no disco (mora em `.claude/agents/`) |
 
 ## Pipelines que funcionam
 
 | Situação | Sequência |
 |---|---|
-| Feature nova | `arquiteto` → `residente` → `testador` → `fiscal` → `documentador` → `deploy-sentinel` |
-| Está lento | `batedor` → `otimizador` → `testador` → `fiscal` |
-| Mudança sensível (login, rota pública, dado de paciente) | `arquiteto` → `residente` → `segurador` → `testador` → `deploy-sentinel` |
-| Código sujo mas funcionando | `testador` (cria a rede) → `refatorador` → `fiscal` |
-| Repo desconhecido | `onboarder` → `code-explainer` no que ficou obscuro |
+| Feature nova | `residente` → `fiscal` |
+| Repo desconhecido, algo está lento | `batedor` (mapeia) → decisão do gerente → `residente` → `fiscal` |
 | Bagunça no PC | `zelador` (mede) → `caco` (roda a rotina) |
+| Doc do repo envelheceu | `auditor-do-repo` (aponta) → gerente corrige |
 | Fim de sessão | `secretaria` |
 
 ## Regras de frota
@@ -114,5 +78,3 @@ neutralizado em [docs/template-de-agente.md](docs/template-de-agente.md).
 4. **Modelo mais barato que dá conta.** haiku varre, sonnet implementa, opus julga.
 5. **Nenhum agente faz push, merge, deleção ou gravação em banco.** Isso é decisão do gerente.
 6. **Fan-out cabe em 3 agentes simultâneos.** 4 núcleos e 7,6 GiB de RAM: acima disso vira fila.
-
-

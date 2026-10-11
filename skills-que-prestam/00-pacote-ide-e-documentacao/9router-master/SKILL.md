@@ -83,7 +83,7 @@ Vários provedores aceitam mais de um apelido: `deepseek`/`ds`, `poolside`/`ps`,
 **Não confie nesta tabela para a lista viva — pergunte à máquina:**
 
 ```bash
-K=$(grep -m1 '^NINEROUTER_KEY=' ~/projetos/.env | cut -d= -f2-)
+K=$(grep -m1 '^NINEROUTER_KEY=' ~/.local/secrets/.env | cut -d= -f2-)
 curl -s -H "Authorization: Bearer $K" http://127.0.0.1:20128/v1/models \
   | python3 -c 'import json,sys; m=json.load(sys.stdin).get("data",[]); print(len(m),"modelos"); [print(x["id"]) for x in m]'
 ```
@@ -272,7 +272,7 @@ Em localhost, `200` é o esperado — o gate deixa loopback passar. **Não é fa
 
 **3. Responde com chave?**
 ```bash
-K=$(grep -m1 '^NINEROUTER_KEY=' ~/projetos/.env | cut -d= -f2-)
+K=$(grep -m1 '^NINEROUTER_KEY=' ~/.local/secrets/.env | cut -d= -f2-)
 curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer $K" \
   http://127.0.0.1:20128/v1/models
 ```

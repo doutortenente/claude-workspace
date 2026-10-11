@@ -3,12 +3,11 @@
 ## Criar um agente novo
 
 ```bash
-cd ~/projetos/claude
-git checkout -b frota-<nome>
+cd ~/src/Claude-workspace
 mkdir agents/<nome>
 # copiar os blocos de agents/docs/template-de-agente.md para agents/<nome>/<nome>.md
 # escrever agents/<nome>/README.md com a documentação (SEM cabeçalho YAML)
-python3 ~/projetos/scripts/claude/validar_frota.py --strict
+head -8 agents/<nome>/<nome>.md      # confere name, description, model, tools
 ```
 
 **Uma pasta por agente**, com o arquivo do agente e o `README.md` de documentação ao lado. O nome do
@@ -38,7 +37,7 @@ arquivo em `docs/` e o agente aponta pra lá.
 
 ## Checklist antes do commit
 
-- [ ] `validar_frota.py --strict` sai com código 0
+- [ ] Cabeçalho confere com `docs/convencoes.md` (`name`, `description`, `model`, `tools`)
 - [ ] Agente mora em `agents/<nome>/<nome>.md`, com `README.md` de documentação ao lado
 - [ ] O `README.md` da pasta **não** tem cabeçalho YAML (senão vira agente fantasma)
 - [ ] Cabeçalho só usa campos da spec oficial; `name` e `description` são obrigatórios
@@ -70,6 +69,6 @@ Conventional Commits: `feat(agents):`, `docs(agents):`, `fix(agents):`.
 
 | Coisa | Por quê |
 | --- | --- |
-| `~/.claude/agents` | É um symlink para este repositório. Edite em `agents/`, com Git e revisão. |
+| `$CLAUDE_CONFIG_DIR/agents` | É um symlink para este repositório. Edite em `agents/`, com Git e revisão. |
 | `agents/docs/contrato-de-relatorio.md` isoladamente | Todo agente depende desse formato; qualquer mudança afeta os 18 de uma vez. |
-| Scripts de infraestrutura dentro deste repositório | A casa única é `~/projetos/scripts/`; o validador da frota mora em `scripts/claude/`. |
+| Scripts de infraestrutura dentro deste repositório | A casa única é `~/src/scripts/`; o validador da frota mora em `scripts/claude/`. |

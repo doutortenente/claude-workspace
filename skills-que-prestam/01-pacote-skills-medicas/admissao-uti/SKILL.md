@@ -9,7 +9,7 @@ Skill cirúrgica para redigir a **nota de admissão** (modo D1) no formato exato
 inventar dado. Sem comentário motivacional dentro da nota — a nota é instrumento clínico-legal, não palco.
 
 > ⚙️ **ARQUITETURA SASI v2:** esta skill e a `sasi-ingest-export` compartilham o **mesmo TEMPLATE-BASE CANÔNICO**
-> (`~/projetos/sasi/doctrine/_SASI_TEMPLATE_BASE_v2.md`). A anatomia da nota é idêntica nas duas — muda só o eixo temporal
+> (`~/src/sasi/doctrine/_SASI_TEMPLATE_BASE_v2.md`). A anatomia da nota é idêntica nas duas — muda só o eixo temporal
 > (HPMA aqui, Intercorrências lá) e o dia (D1 aqui, D[n] lá). **Se você alterar o template-base nesta skill, replique
 IDÊNTICO na outra no mesmo commit.** Divergência entre as cópias é bug clínico-legal.
 
@@ -40,7 +40,7 @@ em `// Comando Tático — Notas de operação:`. Dentro da nota: só dado clín
 ## 🪖 TEMPLATE-BASE CLÍNICO CANÔNICO — v2.0 (Ramo C)
 
 > **FONTE DA VERDADE COMPARTILHADA.** Idêntico em `admissao-uti` e `sasi-ingest-export`. Ver
-> `~/projetos/sasi/doctrine/_SASI_TEMPLATE_BASE_v2.md`. Versionar sempre.
+> `~/src/sasi/doctrine/_SASI_TEMPLATE_BASE_v2.md`. Versionar sempre.
 
 ### Princípio — ORTOGONALIDADE DE EIXOS
 
@@ -265,7 +265,7 @@ Devolva nesta ordem:
 
 Se o usuário pedir explicitamente "gera o docx", "salva em word", "exporta" ou equivalente:
 
-- Use a skill `docx` (no PC: `~/projetos/claude/skills/_anthropic/public/docx/`; no claude.ai:
+- Use a skill `docx` (no PC: `~/src/Claude-workspace/skills/_anthropic/public/docx/`; no claude.ai:
   `/mnt/skills/public/docx/` — ler o SKILL.md dela antes).
 - Fonte: Times New Roman, tamanho 10. Margens padrão.
 - Nome: `admissao_<sobrenome_paciente_ou_leito>_<YYYY-MM-DD>.docx` (no claude.ai salvar em `/mnt/user-data/outputs/`; no

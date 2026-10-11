@@ -52,7 +52,7 @@ raiz_repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." 2>/dev/null && pwd) || exi
 # ferramentas citadas abaixo não existem na sessão — barrar o Grep deixaria o
 # agente sem saída nenhuma.
 mcp_ligado() {
-  local cfg="$HOME/.claude/settings.json"
+  local cfg="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/settings.json"
   [ -f "$cfg" ] || return 0
   jq -e '(.disabledMcpServers // []) | index("jetbrains-index")' "$cfg" >/dev/null 2>&1 && return 1
   return 0
@@ -64,7 +64,7 @@ mcp_ligado || exit 0
 # nada aqui pode imprimir o arquivo inteiro, nem em mensagem de erro.
 ide_viva() {
   local f pid w
-  for f in "$HOME"/.claude/ide/*.lock "$raiz_repo"/ide/*.lock; do
+  for f in "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/ide/*.lock "$raiz_repo"/ide/*.lock; do
     [ -f "$f" ] || continue
     pid=$(jq -r '.pid // empty' "$f" 2>/dev/null)
     [ -n "$pid" ] || continue
